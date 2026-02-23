@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate Verification - Arkia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    .valid {
+      color: green;
+      font-weight: bold;
+    }
+    .invalid {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Certificate Verification</h1>
+  <div id="result">Loading...</div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+const sheetURL = "COLOQUE_AQUI_SUA_API_JSON";
+
+fetch(sheetURL)
+  .then(res => res.json())
+  .then(data => {
+    const cert = data.find(c => c.certificate_id === id);
+
+    if (!cert) {
+      document.getElementById("result").innerHTML =
+        "<p class='invalid'>Invalid Certificate ID</p>";
+      return;
+    }
+
+    if (cert.status !== "valid") {
+      document.getElementById("result").innerHTML =
+        "<p class='invalid'>Certificate Revoked</p>";
+      return;
+    }
+
+    document.getElementById("result").innerHTML = `
+      <p class='valid'>Valid Certificate</p>
+      <p><strong>Name:</strong> ${cert.nome}</p>
+      <p><strong>Course:</strong> ${cert.curso}</p>
+      <p><strong>Workload:</strong> ${cert.carga_horaria}</p>
+      <p><strong>Issued:</strong> ${cert.data_emissao}</p>
+      <p><strong>Certificate ID:</strong> ${cert.certificate_id}</p>
+    `;
+  });
+</script>
+
+</body>
+</html>
