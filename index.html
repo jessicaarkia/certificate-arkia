@@ -1,43 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Certificate Verification - Arkia</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .card {
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      max-width: 600px;
-      width: 100%;
-    }
-    h1 {
-      margin-bottom: 10px;
-    }
-    .valid {
-      color: green;
-      font-weight: bold;
-    }
-    .invalid {
-      color: red;
-      font-weight: bold;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Verification - Arkia</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .card {
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+  }
+
+  .logo {
+    width: 160px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    margin: 10px 0 20px;
+    color: #0f172a;
+  }
+
+  .valid {
+    color: #16a34a;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .invalid {
+    color: #dc2626;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  p {
+    margin: 8px 0;
+    color: #334155;
+  }
+
+  .footer {
+    margin-top: 25px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+</style>
 </head>
+
 <body>
 
 <div class="card">
+  <!-- Coloque sua logo PNG na mesma pasta e troque o nome abaixo -->
+  <img src="logo-arkia.png" class="logo" alt="Arkia Logo">
+
   <h1>Certificate Verification</h1>
+
   <div id="result">Loading...</div>
+
+  <div class="footer">
+    © 2026 Arkia. All rights reserved.
+  </div>
 </div>
 
 <script>
@@ -46,34 +82,46 @@ const id = params.get("id");
 
 const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxyzLDZ5RQ/Sheet1";
 
-fetch(sheetURL)
-  .then(res => res.json())
-  .then(data => {
-    const cert = data.find(c => c.certificate_id === id);
+if (!id) {
+  document.getElementById("result").innerHTML =
+    "<p class='invalid'>No Certificate ID provided</p>";
+} else {
+  fetch(sheetURL)
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao buscar planilha");
+      return res.json();
+    })
+    .then(data => {
 
-    if (!cert) {
+      const cert = data.find(c => c.certificate_id === id);
+
+      if (!cert) {
+        document.getElementById("result").innerHTML =
+          "<p class='invalid'>Invalid Certificate ID</p>";
+        return;
+      }
+
+      if (cert.status.toLowerCase() !== "valid") {
+        document.getElementById("result").innerHTML =
+          "<p class='invalid'>Certificate Revoked</p>";
+        return;
+      }
+
+      document.getElementById("result").innerHTML = `
+        <p class='valid'>Valid Certificate</p>
+        <p><strong>Name:</strong> ${cert.nome}</p>
+        <p><strong>Course:</strong> ${cert.curso}</p>
+        <p><strong>Workload:</strong> ${cert.carga_horaria}</p>
+        <p><strong>Issued:</strong> ${cert.data_emissao}</p>
+        <p><strong>Certificate ID:</strong> ${cert.certificate_id}</p>
+      `;
+    })
+    .catch(error => {
       document.getElementById("result").innerHTML =
-        "<p class='invalid'>Invalid Certificate ID</p>";
-      return;
-    }
-
-    if (cert.status !== "valid") {
-      document.getElementById("result").innerHTML =
-        "<p class='invalid'>Certificate Revoked</p>";
-      return;
-    }
-
-    document.getElementById("result").innerHTML = `
-      <p class='valid'>Valid Certificate</p>
-      <p><strong>Name:</strong> ${cert.nome}</p>
-      <p><strong>Course:</strong> ${cert.curso}</p>
-      <p><strong>Workload:</strong> ${cert.carga_horaria}</p>
-      <p><strong>Issued:</strong> ${cert.data_emissao}</p>
-      <p><strong>Certificate ID:</strong> ${cert.certificate_id}</p>
-    `;
-  });
+        "<p class='invalid'>Error loading certificate data</p>";
+    });
+}
 </script>
 
 </body>
 </html>
-
