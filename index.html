@@ -20,7 +20,6 @@
     box-sizing: border-box;
   }
 
-  /* Caixa de mensagens (Carregando, Erro, Inválido) */
   .card-status {
     background: #ffffff;
     padding: 40px;
@@ -52,7 +51,7 @@
     padding: 24px 40px;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    width: 842px; /* Mesma largura do certificado para alinhar */
+    width: 842px;
     max-width: 100%;
     text-align: center;
     margin-bottom: 25px;
@@ -80,24 +79,17 @@
     gap: 8px;
   }
 
-  .btn-baixar {
-    background-color: #0f172a;
-    color: white;
-  }
+  .btn-baixar { background-color: #0f172a; color: white; }
   .btn-baixar:hover { background-color: #334155; }
-
-  .btn-linkedin {
-    background-color: #0a66c2;
-    color: white;
-  }
+  .btn-linkedin { background-color: #0a66c2; color: white; }
   .btn-linkedin:hover { background-color: #004182; }
 
   /* =======================================================
-     ÁREA DO CERTIFICADO DINÂMICO (Visual na Tela)
+     ÁREA DO CERTIFICADO DINÂMICO
      ======================================================= */
   .certificado-area {
     position: relative;
-    width: 842px;  /* Tamanho exato de um A4 paisagem */
+    width: 842px;  
     height: 595px;
     margin: 0 auto 40px auto;
     box-shadow: 0 15px 35px rgba(0,0,0,0.4);
@@ -111,48 +103,60 @@
     display: block;
   }
 
-  /* Estilização base para os textos flutuantes */
   .texto-dinamico {
     position: absolute;
     font-family: 'Arial', sans-serif;
     color: #111111;
-    font-weight: 700;
   }
 
-  /* 
-    ATENÇÃO: Mude as porcentagens (top, left, right) abaixo 
-    para alinhar os textos perfeitamente com o seu design do Canva.
-  */
+  /* Alinhamento dos Textos Principais */
+  .nome-curso-topo {
+    top: 5%;
+    left: 35%;
+    font-size: 34px;
+    font-weight: 800;
+    text-transform: uppercase;
+    width: 60%;
+  }
+
   .nome-aluno {
-    top: 35%; 
-    left: 36%;
-    font-size: 28px;
+    top: 33%; 
+    left: 35%;
+    font-size: 36px;
+    font-weight: 800;
   }
 
-  .nome-curso {
-    top: 10%;
-    left: 36%;
-    font-size: 32px;
+  .texto-conclusao {
+    top: 45%;
+    left: 35%;
+    font-size: 18px;
+    color: #222222;
+    width: 58%;
+    line-height: 1.4;
   }
 
   .carga-horaria {
-    top: 54%;
-    left: 36%;
+    top: 55%;
+    left: 35%;
     font-size: 18px;
+    font-weight: bold;
   }
 
   .data-emissao {
-    bottom: 5%;
-    right: 25%;
-    font-size: 14px;
+    bottom: 5.5%;
+    right: 22%;
+    font-size: 13px;
+    font-weight: bold;
   }
 
   .id-credencial {
-    bottom: 5%;
-    left: 36%;
-    font-size: 14px;
+    bottom: 5.5%;
+    left: 44%;
+    font-size: 13px;
+    font-weight: bold;
   }
 
+  /* Elementos Visuais Dinâmicos (Selo e QR Code) */
   .qr-code {
     bottom: 8%;
     left: 9%;
@@ -160,28 +164,17 @@
     height: 85px;
   }
 
-  .ano-do-selo {
-    bottom: 9.5%; 
-    right: 15.5%; 
-    font-size: 11px;
-    color: #4a4a4a;
+  .imagem-selo {
+    bottom: 5%; 
+    right: 11%; 
+    width: 82px; 
+    height: 82px;
   }
 
-  /* =======================================================
-     REGRA DE OURO DA IMPRESSÃO (O que acontece ao gerar PDF)
-     ======================================================= */
+  /* IMPRESSÃO CONFIGURADA */
   @media print {
-    body {
-      background: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      display: block !important;
-    }
-    
-    .no-print {
-      display: none !important; /* Esconde botões, avisos e fundo escuro */
-    }
-
+    body { background: none !important; margin: 0 !important; padding: 0 !important; display: block !important; }
+    .no-print { display: none !important; }
     .certificado-area {
       box-shadow: none !important;
       position: absolute !important;
@@ -195,7 +188,6 @@
 </head>
 <body>
 
-<!-- O Javascript vai injetar todo o conteúdo dinâmico dentro desta div -->
 <div id="app-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
   <div class="card-status">
     <img src="logo-arkia.png" class="logo" alt="Arkia Logo">
@@ -208,7 +200,6 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-// Link do seu banco de dados atual
 const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxyzLDZ5RQ/Sheet1";
 
 if (!id) {
@@ -220,7 +211,6 @@ if (!id) {
       return res.json();
     })
     .then(data => {
-      // Procura o aluno pelo ID correspondente
       const cert = data.find(c => c.certificate_id === id);
 
       if (!cert) {
@@ -233,23 +223,17 @@ if (!id) {
         return;
       }
 
-      // --- PROCESSAMENTO DE DATA INTELIGENTE ---
-      // Pega "2026-02-23" e divide por traços
+      // Isola ano e mês para os seletores automáticos
       const partesData = cert.data_emissao.split('-');
       const anoCertificado = partesData[0] || "2026";
       const mesCertificado = partesData[1] || "01";
 
-      // Link dinâmico do QR Code apontando para a URL atual do aluno
       const urlAtual = window.location.href;
       const urlQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlAtual)}`;
-
-      // Monta o link mágico de preenchimento automático do LinkedIn
       const linkLinkedin = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(cert.curso)}&organizationName=Arkia&issueMonth=${mesCertificado}&issueYear=${anoCertificado}&certId=${cert.certificate_id}&certUrl=${encodeURIComponent(urlAtual)}`;
 
-      // --- RENDERIZAÇÃO DO LAYOUT PROFISSIONAL ---
-      // Substitui a caixinha simples pela tela completa de controle + certificado
+      // Injeta a estrutura completa corrigida
       document.getElementById("app-container").innerHTML = `
-        <!-- Painel superior de ações (Não sai na impressão) -->
         <div class="painel-controle no-print">
           <img src="logo-arkia.png" style="width: 100px; margin-bottom: 5px;" alt="Arkia">
           <h1 style="margin: 0 0 5px 0; font-size: 20px;">Certificate Verification</h1>
@@ -261,20 +245,18 @@ if (!id) {
           </div>
         </div>
 
-        <!-- O Certificado Oficial gerado em tempo real -->
         <div class="certificado-area">
           <img src="fundo-certificado.png" class="certificado-fundo" alt="Certificado Fundo">
           
+          <div class="texto-dinamico nome-curso-topo">${cert.curso} <br><span style="color:#3b82f6; font-size:24px;">In Action</span></div>
           <div class="texto-dinamico nome-aluno">${cert.nome}</div>
-          <div class="texto-dinamico nome-curso">${cert.curso}</div>
+          <div class="texto-dinamico texto-conclusao">Has successfully completed the Master of <strong>${cert.curso}</strong> Certificate program.</div>
           <div class="texto-dinamico carga-horaria">Workload - ${cert.carga_horaria} hours</div>
-          <div class="texto-dinamico data-emissao">This award was presented on ${cert.data_emissao}</div>
-          <div class="texto-dinamico id-credencial">Certificate ID: ${cert.certificate_id}</div>
+          <div class="texto-dinamico data-emissao">${cert.data_emissao}</div>
+          <div class="texto-dinamico id-credencial">${cert.certificate_id}</div>
           
-          <!-- O Ano inserido dinamicamente dentro do selo redondo da direita -->
-          <div class="texto-dinamico ano-do-selo">${anoCertificado}</div>
+          <img class="texto-dinamico imagem-selo" src="selo-${anoCertificado}.png" alt="Selo Oficial">
           
-          <!-- Imagem do QR Code gerada na hora -->
           <img id="qrCodeDinamico" class="texto-dinamico qr-code" src="${urlQrCode}" alt="QR Code">
         </div>
       `;
