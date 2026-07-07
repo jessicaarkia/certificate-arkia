@@ -1,78 +1,206 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Verification - Arkia</title>
 
 <style>
+  /* Configuração da Tela do Computador */
   body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 30px 20px;
+    box-sizing: border-box;
   }
 
-  .card {
+  /* Caixa de mensagens (Carregando, Erro, Inválido) */
+  .card-status {
     background: #ffffff;
-    padding: 50px;
+    padding: 40px;
     border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    max-width: 600px;
-    width: 90%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 100%;
     text-align: center;
+    margin-top: 10vh;
   }
 
   .logo {
-    width: 160px;
+    width: 140px;
     margin-bottom: 20px;
   }
 
   h1 {
-    margin: 10px 0 20px;
+    margin: 10px 0;
     color: #0f172a;
+    font-size: 24px;
   }
 
-  .valid {
-    color: #16a34a;
+  .valid { color: #16a34a; font-weight: bold; font-size: 18px; margin: 10px 0; }
+  .invalid { color: #dc2626; font-weight: bold; font-size: 18px; margin: 10px 0; }
+
+  /* Painel de Controle Superior */
+  .painel-controle {
+    background: #ffffff;
+    padding: 24px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 842px; /* Mesma largura do certificado para alinhar */
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+  }
+
+  .botoes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  .btn-baixar, .btn-linkedin {
+    padding: 12px 24px;
+    border-radius: 8px;
     font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-baixar {
+    background-color: #0f172a;
+    color: white;
+  }
+  .btn-baixar:hover { background-color: #334155; }
+
+  .btn-linkedin {
+    background-color: #0a66c2;
+    color: white;
+  }
+  .btn-linkedin:hover { background-color: #004182; }
+
+  /* =======================================================
+     ÁREA DO CERTIFICADO DINÂMICO (Visual na Tela)
+     ======================================================= */
+  .certificado-area {
+    position: relative;
+    width: 842px;  /* Tamanho exato de um A4 paisagem */
+    height: 595px;
+    margin: 0 auto 40px auto;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    background-color: #ffffff;
+    overflow: hidden;
+  }
+
+  .certificado-fundo {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Estilização base para os textos flutuantes */
+  .texto-dinamico {
+    position: absolute;
+    font-family: 'Arial', sans-serif;
+    color: #111111;
+    font-weight: 700;
+  }
+
+  /* 
+    ATENÇÃO: Mude as porcentagens (top, left, right) abaixo 
+    para alinhar os textos perfeitamente com o seu design do Canva.
+  */
+  .nome-aluno {
+    top: 35%; 
+    left: 36%;
+    font-size: 28px;
+  }
+
+  .nome-curso {
+    top: 10%;
+    left: 36%;
+    font-size: 32px;
+  }
+
+  .carga-horaria {
+    top: 54%;
+    left: 36%;
     font-size: 18px;
   }
 
-  .invalid {
-    color: #dc2626;
-    font-weight: bold;
-    font-size: 18px;
+  .data-emissao {
+    bottom: 5%;
+    right: 25%;
+    font-size: 14px;
   }
 
-  p {
-    margin: 8px 0;
-    color: #334155;
+  .id-credencial {
+    bottom: 5%;
+    left: 36%;
+    font-size: 14px;
   }
 
-  .footer {
-    margin-top: 25px;
-    font-size: 12px;
-    color: #94a3b8;
+  .qr-code {
+    bottom: 8%;
+    left: 9%;
+    width: 85px;
+    height: 85px;
+  }
+
+  .ano-do-selo {
+    bottom: 9.5%; 
+    right: 15.5%; 
+    font-size: 11px;
+    color: #4a4a4a;
+  }
+
+  /* =======================================================
+     REGRA DE OURO DA IMPRESSÃO (O que acontece ao gerar PDF)
+     ======================================================= */
+  @media print {
+    body {
+      background: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+    
+    .no-print {
+      display: none !important; /* Esconde botões, avisos e fundo escuro */
+    }
+
+    .certificado-area {
+      box-shadow: none !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      margin: 0 !important;
+      page-break-inside: avoid;
+    }
   }
 </style>
 </head>
-
 <body>
 
-<div class="card">
-  <!-- Coloque sua logo PNG na mesma pasta e troque o nome abaixo -->
-  <img src="logo-arkia.png" class="logo" alt="Arkia Logo">
-
-  <h1>Certificate Verification</h1>
-
-  <div id="result">Loading...</div>
-
-  <div class="footer">
-    © 2026 Arkia. All rights reserved.
+<!-- O Javascript vai injetar todo o conteúdo dinâmico dentro desta div -->
+<div id="app-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+  <div class="card-status">
+    <img src="logo-arkia.png" class="logo" alt="Arkia Logo">
+    <h1>Certificate Verification</h1>
+    <div id="status-mensagem">Loading...</div>
   </div>
 </div>
 
@@ -80,11 +208,11 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
+// Link do seu banco de dados atual
 const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxyzLDZ5RQ/Sheet1";
 
 if (!id) {
-  document.getElementById("result").innerHTML =
-    "<p class='invalid'>No Certificate ID provided</p>";
+  document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>No Certificate ID provided</p>";
 } else {
   fetch(sheetURL)
     .then(res => {
@@ -92,33 +220,68 @@ if (!id) {
       return res.json();
     })
     .then(data => {
-
+      // Procura o aluno pelo ID correspondente
       const cert = data.find(c => c.certificate_id === id);
 
       if (!cert) {
-        document.getElementById("result").innerHTML =
-          "<p class='invalid'>Invalid Certificate ID</p>";
+        document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Invalid Certificate ID</p>";
         return;
       }
 
       if (cert.status.toLowerCase() !== "valid") {
-        document.getElementById("result").innerHTML =
-          "<p class='invalid'>Certificate Revoked</p>";
+        document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Certificate Revoked</p>";
         return;
       }
 
-      document.getElementById("result").innerHTML = `
-        <p class='valid'>Valid Certificate</p>
-        <p><strong>Name:</strong> ${cert.nome}</p>
-        <p><strong>Course:</strong> ${cert.curso}</p>
-        <p><strong>Workload:</strong> ${cert.carga_horaria}</p>
-        <p><strong>Issued:</strong> ${cert.data_emissao}</p>
-        <p><strong>Certificate ID:</strong> ${cert.certificate_id}</p>
+      // --- PROCESSAMENTO DE DATA INTELIGENTE ---
+      // Pega "2026-02-23" e divide por traços
+      const partesData = cert.data_emissao.split('-');
+      const anoCertificado = partesData[0] || "2026";
+      const mesCertificado = partesData[1] || "01";
+
+      // Link dinâmico do QR Code apontando para a URL atual do aluno
+      const urlAtual = window.location.href;
+      const urlQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlAtual)}`;
+
+      // Monta o link mágico de preenchimento automático do LinkedIn
+      const linkLinkedin = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(cert.curso)}&organizationName=Arkia&issueMonth=${mesCertificado}&issueYear=${anoCertificado}&certId=${cert.certificate_id}&certUrl=${encodeURIComponent(urlAtual)}`;
+
+      // --- RENDERIZAÇÃO DO LAYOUT PROFISSIONAL ---
+      // Substitui a caixinha simples pela tela completa de controle + certificado
+      document.getElementById("app-container").innerHTML = `
+        <!-- Painel superior de ações (Não sai na impressão) -->
+        <div class="painel-controle no-print">
+          <img src="logo-arkia.png" style="width: 100px; margin-bottom: 5px;" alt="Arkia">
+          <h1 style="margin: 0 0 5px 0; font-size: 20px;">Certificate Verification</h1>
+          <p class="valid" style="margin: 0; font-size: 16px;">✓ Valid Certificate</p>
+          
+          <div class="botoes">
+            <button onclick="window.print()" class="btn-baixar">📥 Baixar Certificado (PDF)</button>
+            <a id="btnLinkedin" href="${linkLinkedin}" target="_blank" class="btn-linkedin">💼 Adicionar ao LinkedIn</a>
+          </div>
+        </div>
+
+        <!-- O Certificado Oficial gerado em tempo real -->
+        <div class="certificado-area">
+          <img src="fundo-certificado.png" class="certificado-fundo" alt="Certificado Fundo">
+          
+          <div class="texto-dinamico nome-aluno">${cert.nome}</div>
+          <div class="texto-dinamico nome-curso">${cert.curso}</div>
+          <div class="texto-dinamico carga-horaria">Workload - ${cert.carga_horaria} hours</div>
+          <div class="texto-dinamico data-emissao">This award was presented on ${cert.data_emissao}</div>
+          <div class="texto-dinamico id-credencial">Certificate ID: ${cert.certificate_id}</div>
+          
+          <!-- O Ano inserido dinamicamente dentro do selo redondo da direita -->
+          <div class="texto-dinamico ano-do-selo">${anoCertificado}</div>
+          
+          <!-- Imagem do QR Code gerada na hora -->
+          <img id="qrCodeDinamico" class="texto-dinamico qr-code" src="${urlQrCode}" alt="QR Code">
+        </div>
       `;
     })
     .catch(error => {
-      document.getElementById("result").innerHTML =
-        "<p class='invalid'>Error loading certificate data</p>";
+      document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
+      console.error(error);
     });
 }
 </script>
