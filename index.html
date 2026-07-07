@@ -118,7 +118,18 @@
     text-transform: uppercase;
     width: 65%;
   }
-
+/* NOVO: Bloco unificado que impede os textos de se atropelarem */
+  .bloco-conteudo-central {
+    position: absolute;
+    top: 32%;          /* Ponto de início do Nome do Aluno */
+    left: 31%;         /* Alinhamento à esquerda */
+    width: 58%;        /* Largura máxima permitida para o texto */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;         /* DISTÂNCIA SEGURA: Garante espaço fixo entre os textos */
+    text-align: left;
+  }
+  
   .nome-aluno {
     top: 29%; 
     left: 27%;
@@ -147,6 +158,7 @@
     right: 27%;
     font-size: 13px;
     font-weight: bold;
+    text-decoration: underline;
   }
 
   .id-credencial {
@@ -154,6 +166,7 @@
     left: 27%;
     font-size: 13px;
     font-weight: bold;
+    text-decoration: underline;
   }
 
   /* Elementos Visuais Dinâmicos (Selo e QR Code) */
