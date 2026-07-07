@@ -111,24 +111,24 @@
 
   /* Alinhamento dos Textos Principais */
   .nome-curso-topo {
-    top: 5%;
-    left: 30%;
-    font-size: 34px;
+    top: 6%;
+    left: 31%;
+    font-size: 30px;
     font-weight: 800;
     text-transform: uppercase;
-    width: 60%;
+    width: 65%;
   }
 
   .nome-aluno {
     top: 33%; 
-    left: 30%;
+    left: 31%;
     font-size: 36px;
     font-weight: 800;
   }
 
   .texto-conclusao {
     top: 46%;
-    left: 30%;
+    left: 31%;
     font-size: 18px;
     color: #222222;
     width: 58%;
@@ -137,20 +137,20 @@
 
   .carga-horaria {
     top: 57%;
-    left: 30%;
+    left: 31%;
     font-size: 18px;
     font-weight: bold;
   }
 
   .data-emissao {
-    bottom: 6%;
-    right: 30%;
+    bottom: 3%;
+    right: 31%;
     font-size: 13px;
     font-weight: bold;
   }
 
   .id-credencial {
-    bottom: 6%;
+    bottom: 3%;
     left: 44%;
     font-size: 13px;
     font-weight: bold;
@@ -160,13 +160,13 @@
   .qr-code {
     bottom: 9%;
     left: 7%;
-    width: 85px;
-    height: 85px;
+    width: 86px;
+    height: 86px;
   }
 
   .imagem-selo {
-    bottom: 5%; 
-    right: 18%; 
+    bottom: 12%; 
+    right: 16%; 
     width: 82px; 
     height: 82px;
   }
@@ -248,7 +248,7 @@ if (!id) {
         <div class="certificado-area">
           <img src="fundo-certificado.png" class="certificado-fundo" alt="Certificado Fundo">
           
-          <div class="texto-dinamico nome-curso-topo">${cert.curso} <br><span style="color:#3b82f6; font-size:24px;">In Action</span></div>
+          <div class="texto-dinamico nome-curso-topo">${cert.curso}</div>
           <div class="texto-dinamico nome-aluno">${cert.nome}</div>
           <div class="texto-dinamico texto-conclusao">Has successfully completed the Master of <strong>${cert.curso}</strong> Certificate program.</div>
           <div class="texto-dinamico carga-horaria">Workload - ${cert.carga_horaria} hours</div>
