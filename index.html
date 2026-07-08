@@ -263,17 +263,19 @@ if (!id) {
           <img src="fundo-certificado.png" class="certificado-fundo" alt="Certificado Fundo">
           
           <div class="texto-dinamico nome-curso-topo">${cert.curso}</div>
-          <div class="texto-dinamico nome-aluno">${cert.nome}</div>
-          <div class="texto-dinamico texto-conclusao">Has successfully completed the Master of <strong>${cert.curso}</strong> Certificate program.</div>
-          <div class="texto-dinamico carga-horaria">Workload - ${cert.carga_horaria} hours</div>
+          
+          <div class="bloco-conteudo-central">
+            <h2 class="nome-aluno">${cert.nome}</h2>
+            <p class="texto-conclusao">Has successfully completed the Master of <strong>${cert.curso}</strong> Certificate program.</p>
+            <p class="carga-horaria">Workload - ${cert.carga_horaria} hours</p>
+          </div>
+          
           <div class="texto-dinamico data-emissao">Issued: ${cert.data_emissao}</div>
           <div class="texto-dinamico id-credencial">${cert.certificate_id}</div>
           
           <img class="texto-dinamico imagem-selo" src="selo-${anoCertificado}.png" alt="Selo Oficial">
-          
           <img id="qrCodeDinamico" class="texto-dinamico qr-code" src="${urlQrCode}" alt="QR Code">
         </div>
-      `;
     })
     .catch(error => {
       document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
