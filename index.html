@@ -119,15 +119,15 @@
     width: 65%;
   }
 
-  /* Bloco unificado modificado para usar seus parâmetros exatos de posicionamento */
+  /* Bloco unificado com seus parâmetros numéricos mantidos */
   .bloco-conteudo-central {
     position: absolute;
-    top: 29%;          /* Mantém o seu alinhamento vertical inicial do nome */
-    left: 27%;         /* Mantém o seu alinhamento horizontal inicial */
-    width: 58%;        /* Largura máxima contida */
+    top: 29%;          
+    left: 27%;         
+    width: 58%;        
     display: flex;
     flex-direction: column;
-    gap: 14px;         /* Espaçamento seguro para os elementos não encavalarem */
+    gap: 14px;         
     text-align: left;
   }
   
@@ -151,7 +151,6 @@
     margin: 0;
   }
 
-  /* Nova frase da data estilizada abaixo do bloco central */
   .texto-data-conclusao {
     font-size: 16px;
     color: #222222;
@@ -216,7 +215,7 @@
 </div>
 
 <script>
-// Função tratadora para converter datas "2026-05-11" em formato extenso descritivo em inglês
+// Função para converter datas "2026-05-11" em formato extenso descritivo em inglês
 function formatarDataExtensoIngles(dataString) {
   if (!dataString) return "";
   const partes = dataString.split('-');
@@ -241,7 +240,8 @@ function formatarDataExtensoIngles(dataString) {
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxyzLDZ5RQ/Sheet1?_=" + Date.now();
+// LINK CORRIGIDO: Removido o parâmetro de cache que causava o erro 404 no OpenSheet
+const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxyzLDZ5RQ/Sheet1";
 
 if (!id) {
   document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>No Certificate ID provided</p>";
@@ -252,6 +252,9 @@ if (!id) {
       return res.json();
     })
     .then(data => {
+      // Garante que a resposta da planilha seja uma lista antes de buscar
+      if (!Array.isArray(data)) throw new Error("Dados inválidos recebidos");
+
       const cert = data.find(c => c.certificate_id === id);
 
       if (!cert) {
@@ -264,7 +267,6 @@ if (!id) {
         return;
       }
 
-      // Isola ano e mês para os seletores automáticos
       const partesData = cert.data_emissao.split('-');
       const anoCertificado = partesData[0] || "2026";
       const mesCertificado = partesData[1] || "01";
