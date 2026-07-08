@@ -124,10 +124,11 @@
     position: absolute;
     top: 23%;          
     left: 27%;         
-    width: 58%;        
+    width: 58%;
+    height: 210px;     /* NOVO: Trava a altura do bloco exatamente até a assinatura */
     display: flex;
     flex-direction: column;
-    gap: 10px;         
+    justify-content: space-between; /* NOVO: Distribui os espaços vazios de forma automática */       
     text-align: left;
   }
   
@@ -135,7 +136,6 @@
     font-size: 35px;
     font-weight: 800;
     margin: 0;
-    margin-bottom: 21px; /* ADICIONE ESTA LINHA (Empurra o texto de baixo) */
     line-height: 1.2;
   }
 
