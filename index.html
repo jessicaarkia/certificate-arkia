@@ -190,11 +190,32 @@
     height: 87px;
   }
 
-  /* IMPRESSÃO CONFIGURADA */
+/* =======================================================
+     CORREÇÃO DE OURO PARA IMPRESSÃO PERFEITA (PREVIEW)
+     ======================================================= */
+  
+  /* 1. Remove as margens do navegador e os textos automáticos (data, url, título) */
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  /* 2. Força o certificado a expandir e preencher a folha inteira */
   @media print {
-    body { background: none !important; margin: 0 !important; padding: 0 !important; display: block !important; }
-    .no-print { display: none !important; }
+    body {
+      background: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+    
+    .no-print {
+      display: none !important; /* Esconde o painel de controle azul */
+    }
+
     .certificado-area {
+      width: 100vw !important;   /* Força o fundo a ocupar 100% da largura do papel */
+      height: 100vh !important;  /* Força o fundo a ocupar 100% da altura do papel */
       box-shadow: none !important;
       position: absolute !important;
       top: 0 !important;
@@ -203,6 +224,7 @@
       page-break-inside: avoid;
     }
   }
+
 </style>
 </head>
 <body>
