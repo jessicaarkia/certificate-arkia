@@ -118,40 +118,45 @@
     text-transform: uppercase;
     width: 65%;
   }
-/* NOVO: Bloco unificado que impede os textos de se atropelarem */
+
+  /* Bloco unificado modificado para usar seus parâmetros exatos de posicionamento */
   .bloco-conteudo-central {
     position: absolute;
-    top: 32%;          /* Ponto de início do Nome do Aluno */
-    left: 31%;         /* Alinhamento à esquerda */
-    width: 58%;        /* Largura máxima permitida para o texto */
+    top: 29%;          /* Mantém o seu alinhamento vertical inicial do nome */
+    left: 27%;         /* Mantém o seu alinhamento horizontal inicial */
+    width: 58%;        /* Largura máxima contida */
     display: flex;
     flex-direction: column;
-    gap: 15px;         /* DISTÂNCIA SEGURA: Garante espaço fixo entre os textos */
+    gap: 14px;         /* Espaçamento seguro para os elementos não encavalarem */
     text-align: left;
   }
   
   .nome-aluno {
-    top: 29%; 
-    left: 27%;
     font-size: 35px;
     font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
   }
 
   .texto-conclusao {
-    top: 46%;
-    left: 27%;
     font-size: 18px;
     color: #222222;
-    width: 58%;
     line-height: 1.4;
+    margin: 0;
   }
 
   .carga-horaria {
-    top: 57%;
-    left: 27%;
     font-size: 18px;
     font-weight: bold;
-    text-decoration: underline;
+    margin: 0;
+  }
+
+  /* Nova frase da data estilizada abaixo do bloco central */
+  .texto-data-conclusao {
+    font-size: 16px;
+    color: #222222;
+    margin: 0;
+    font-weight: normal;
   }
 
   .data-emissao {
@@ -211,10 +216,32 @@
 </div>
 
 <script>
+// Função tratadora para converter datas "2026-05-11" em formato extenso descritivo em inglês
+function formatarDataExtensoIngles(dataString) {
+  if (!dataString) return "";
+  const partes = dataString.split('-');
+  const ano = partes[0];
+  const mesNum = parseInt(partes[1], 10);
+  const diaNum = parseInt(partes[2], 10);
+
+  const meses = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const mesExtenso = meses[mesNum - 1] || "January";
+
+  let sufixo = "th";
+  if (diaNum === 1 || diaNum === 21 || diaNum === 31) sufixo = "st";
+  else if (diaNum === 2 || diaNum === 22) sufixo = "nd";
+  else if (diaNum === 3 || diaNum === 23) sufixo = "rd";
+
+  return `the ${diaNum}${sufixo} of ${mesExtenso}, ${ano}`;
+}
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxyzLDZ5RQ/Sheet1";
+const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxyzLDZ5RQ/Sheet1?_=" + Date.now();
 
 if (!id) {
   document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>No Certificate ID provided</p>";
@@ -245,8 +272,10 @@ if (!id) {
       const urlAtual = window.location.href;
       const urlQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlAtual)}`;
       const linkLinkedin = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(cert.curso)}&organizationName=Arkia&issueMonth=${mesCertificado}&issueYear=${anoCertificado}&certId=${cert.certificate_id}&certUrl=${encodeURIComponent(urlAtual)}`;
+      
+      const dataApresentacaoFormatada = formatarDataExtensoIngles(cert.data_emissao);
 
-      // Injeta a estrutura completa corrigida
+      // Injeta a estrutura completa corrigida com fechamentos estáveis
       document.getElementById("app-container").innerHTML = `
         <div class="painel-controle no-print">
           <img src="logo-arkia.png" style="width: 100px; margin-bottom: 5px;" alt="Arkia">
@@ -268,6 +297,7 @@ if (!id) {
             <h2 class="nome-aluno">${cert.nome}</h2>
             <p class="texto-conclusao">Has successfully completed the Master of <strong>${cert.curso}</strong> Certificate program.</p>
             <p class="carga-horaria">Workload - ${cert.carga_horaria} hours</p>
+            <p class="texto-data-conclusao">This award was presented on ${dataApresentacaoFormatada} in Florida, USA.</p>
           </div>
           
           <div class="texto-dinamico data-emissao">Issued: ${cert.data_emissao}</div>
@@ -276,6 +306,7 @@ if (!id) {
           <img class="texto-dinamico imagem-selo" src="selo-${anoCertificado}.png" alt="Selo Oficial">
           <img id="qrCodeDinamico" class="texto-dinamico qr-code" src="${urlQrCode}" alt="QR Code">
         </div>
+      `;
     })
     .catch(error => {
       document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
