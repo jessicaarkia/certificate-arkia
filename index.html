@@ -127,7 +127,7 @@
     width: 58%;        
     display: flex;
     flex-direction: column;
-    gap: 14px;         
+    gap: 11px;         
     text-align: left;
   }
   
@@ -135,7 +135,7 @@
     font-size: 35px;
     font-weight: 800;
     margin: 0;
-    margin-bottom: 22px; /* ADICIONE ESTA LINHA (Empurra o texto de baixo) */
+    margin-bottom: 21px; /* ADICIONE ESTA LINHA (Empurra o texto de baixo) */
     line-height: 1.2;
   }
 
@@ -200,27 +200,35 @@
     margin: 0;
   }
 
-  /* 2. Força o certificado a expandir e preencher a folha inteira */
+  /* =======================================================
+     CORREÇÃO DE OURO PARA IMPRESSÃO PERFEITA (PREVIEW)
+     ======================================================= */
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
   @media print {
-    body {
-      background: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      display: block !important;
+    body { 
+      background: none !important; 
+      margin: 0 !important; 
+      padding: 0 !important; 
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      height: 100vh !important;
     }
     
-    .no-print {
-      display: none !important; /* Esconde o painel de controle azul */
+    .no-print { 
+      display: none !important; 
     }
-
+    
     .certificado-area {
-      width: 100vw !important;   /* Força o fundo a ocupar 100% da largura do papel */
-      height: 100vh !important;  /* Força o fundo a ocupar 100% da altura do papel */
+      width: 842px !important;   /* Trava a largura exata da tela */
+      height: 595px !important;  /* Trava a altura exata da tela */
       box-shadow: none !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      margin: 0 !important;
+      position: relative !important;
+      margin: 0 auto !important;
       page-break-inside: avoid;
     }
   }
