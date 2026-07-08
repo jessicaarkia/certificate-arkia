@@ -191,43 +191,43 @@
   }
 
 /* =======================================================
-     CORREÇÃO DE OURO PARA IMPRESSÃO PERFEITA (PREVIEW)
-     ======================================================= */
-  
-  /* 1. Remove as margens do navegador e os textos automáticos (data, url, título) */
-  @page {
-    size: landscape;
-    margin: 0;
-  }
-
-  /* =======================================================
-     CORREÇÃO PARA IMPRESSÃO SANGRADA (SEM BORDAS BRANCAS)
+     CORREÇÃO IMPRESSÃO IDÊNTICA AO SITE (CLONE PERFEITO)
      ======================================================= */
   @page {
-    size: A4 landscape; /* Força o navegador a entender que é um papel A4 deitado */
-    margin: 0;          /* Remove qualquer margem padrão do sistema */
+    size: A4 landscape; /* Define o papel como A4 deitado */
+    margin: 0;          /* Elimina cabeçalhos, rodapés e margens do navegador */
   }
 
   @media print {
-    body { 
-      background: none !important; 
-      margin: 0 !important; 
+    /* Desativa completamente o Flexbox e todas as centralizações do site na impressão */
+    html, body, #app-container {
+      display: block !important;
+      width: 842px !important;
+      height: 595px !important;
+      margin: 0 !important;
       padding: 0 !important;
+      background: none !important;
+      overflow: hidden !important;
     }
     
     .no-print { 
-      display: none !important; 
+      display: none !important; /* Esconde botões e barras */
     }
     
     .certificado-area {
-      width: 297mm !important;  /* Largura exata de uma folha A4 */
-      height: 210mm !important; /* Altura exata de uma folha A4 */
+      width: 842px !important;   /* Mantém o tamanho exato que está perfeito na tela */
+      height: 595px !important;  /* Mantém a altura exata que está perfeita na tela */
       position: absolute !important;
       top: 0 !important;
       left: 0 !important;
       margin: 0 !important;
+      padding: 0 !important;
       box-shadow: none !important;
       page-break-inside: avoid;
+
+      /* MÁGICA DO ALINHAMENTO: Escalona o layout do site para preencher o A4 perfeitamente */
+      transform: scale(1.333); 
+      transform-origin: top left;
     }
   }
 
