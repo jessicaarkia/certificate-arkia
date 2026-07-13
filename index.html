@@ -302,7 +302,7 @@ if (!id) {
 
       const urlAtual = window.location.href;
       const urlQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlAtual)}`;
-      const linkLinkedin = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(cert.curso)}&organizationName=Arkia&issueMonth=${mesCertificado}&issueYear=${anoCertificado}&certId=${cert.certificate_id}&certUrl=${encodeURIComponent(urlAtual)}`;
+      const linkLinkedin = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(cert.curso)}&organizationName=Datatech%20Florida&issueMonth=${mesCertificado}&issueYear=${anoCertificado}&certId=${cert.certificate_id}&certUrl=${encodeURIComponent(urlAtual)}`;
       
       const dataApresentacaoFormatada = formatarDataExtensoIngles(cert.data_emissao);
 
