@@ -123,16 +123,13 @@
     text-align: left;
   }
 
-  /* 2. AJUSTADO: Nome do Aluno alinhado matematicamente pela BASE */
+  /* 2. Nome do Aluno (Posicionado para sentar bem em cima da linha preta física) */
   .nome-aluno-container {
     position: absolute;
-    top: 47.2%;       /* Alinha o contêiner exatamente em cima da linha física */
-    left: 10.5%;      /* Mantido seu alinhamento perfeito */
-    width: 55%;       /* Largura estendida para evitar quebras precoces */
+    top: 40.5%;         /* Mantido seu alinhamento */
+    left: 10.5%;        /* Mantido seu alinhamento */
+    width: 55%;         /* Se a sua linha desenhada for um pouco maior ou menor, mude esse valor (ex: 56% ou 54%) */
     text-align: left;
-    
-    /* MÁGICA: Puxa o texto para cima a partir da sua base, colando-o perfeitamente na linha */
-    transform: translateY(-100%); 
   }
 
   .nome-aluno {
@@ -372,26 +369,26 @@ if (!id) {
         </div>
       `;
 
-      // --- AJUSTE DINÂMICO DE FONTE AMPLIADO E SEGURO (AUTO-FIT) ---
+      // --- AJUSTE DINÂMICO DE FONTE ULTRA-PRECISO (AUTO-FIT) ---
+      const container = document.querySelector('.nome-aluno-container');
       const nomeElemento = document.getElementById('dadosNome');
-      const tamanhoNome = cert.nome.length;
 
-      // Se o nome for gigantesco (Ex: Jéssica Daniele Pereira de Lima Cruz - 36 letras)
-      if (tamanhoNome > 35) {
-        nomeElemento.style.fontSize = '28px'; // Aumentado para 28px para melhor legibilidade
-      } 
-      // Se o nome for grande (Ex: Eduardo Henrique Moraes Santos - 29 letras)
-      else if (tamanhoNome > 25) {
-        nomeElemento.style.fontSize = '34px'; // Aumentado para 34px
-      } 
-      // Se o nome for médio (Ex: Rodolpho Amorim Moreira - 23 letras)
-      else if (tamanhoNome > 18) {
-        nomeElemento.style.fontSize = '42px'; // Aumentado para 42px
-      } 
-      // Se o nome for curto (Ex: Denise Davidson - 15 letras)
-      else {
-        nomeElemento.style.fontSize = '50px'; // Tamanho máximo perfeito para nomes curtos
+      // Definimos o tamanho máximo ideal para nomes curtos (como Denise Davidson)
+      let fontSize = 48; 
+      nomeElemento.style.fontSize = fontSize + 'px';
+
+      // O navegador diminui a fonte de 1 em 1 pixel até caber perfeitamente na linha
+      while (nomeElemento.scrollWidth > container.clientWidth && fontSize > 16) {
+        fontSize--;
+        nomeElemento.style.fontSize = fontSize + 'px';
       }
+
+    }) // Fechamento do .then
+    .catch(error => {
+      document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
+      console.error(error);
+    });
+}
 
     })
     .catch(error => {
