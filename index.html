@@ -108,7 +108,7 @@
     color: #111111;
   }
 
-  /* 1. Subtítulo Vermelho (OF THE MASTER OF...) - Mantido seu alinhamento perfeito */
+  /* 1. Subtítulo Vermelho (OF THE MASTER OF...) */
   .nome-curso-topo {
     top: 26%;       
     left: 10.5%;      
@@ -123,31 +123,32 @@
     text-align: left;
   }
 
-  /* 2. Nome do Aluno (Posicionado para sentar bem em cima da linha preta física) */
+  /* 2. Nome do Aluno (Alinhado perfeitamente pela base na linha física) */
   .nome-aluno-container {
     position: absolute;
-    top: 40.5%;         /* Mantido seu alinhamento */
-    left: 10.5%;        /* Mantido seu alinhamento */
-    width: 55%;         /* Se a sua linha desenhada for um pouco maior ou menor, mude esse valor (ex: 56% ou 54%) */
+    top: 46.5%;         /* Posição calibrada para a base assentar na linha */
+    left: 10.5%;      
+    width: 55%;         
     text-align: left;
+    transform: translateY(-100%); /* Faz o crescimento do texto ser para cima da linha */
   }
 
   .nome-aluno {
     font-family: 'Tan Angleton', 'Playfair Display', 'Times New Roman', serif;
     font-weight: normal; 
     margin: 0;
-    line-height: 1.0;  /* Travado em 1.0 para manter a precisão do alinhamento */
+    line-height: 1.0;  
     color: #111827;
     white-space: nowrap; 
   }
 
-  /* 3. Bloco de Textos de Conclusão - Mantido seu alinhamento perfeito */
+  /* 3. Bloco de Textos de Conclusão (Mais espaçado) */
   .bloco-textos-inferiores {
     position: absolute;
     top: 51%;       
     left: 10.5%;      
     width: 50%;        
-    height: 115px;    
+    height: 135px;    /* Aumentado de 115px para 135px para abrir mais espaço entre as linhas */
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
@@ -171,27 +172,29 @@
     margin: 0;
   }
 
+  /* Modificado: Adicionado margem superior para afastar a data dos outros textos */
   .texto-data-conclusao {
     font-family: 'Baloo 2', sans-serif;
     font-size: 13px; 
     font-weight: 400;  
     color: #4b5563;    
     margin: 0;
+    margin-top: 10px;  /* Empurra especificamente o bloco da data para baixo */
     line-height: 1.35;  
   }
 
-  /* 4. Rodapé do Certificado - Mantido seu alinhamento perfeito */
+  /* 4. Rodapé do Certificado */
   .id-credencial {
-    bottom: 2.5%;
-    left: 78%;
+    bottom: 3%;
+    left: 80%;
     font-family: 'Segoe UI', sans-serif;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: normal; 
     text-decoration: none;
     color: #1f2937;
   }
 
-  /* 5. Autenticação QR Code - Mantido seu alinhamento perfeito */
+  /* 5. Autenticação QR Code */
   .bloco-autenticidade {
     position: absolute;
     bottom: 7%;
@@ -214,7 +217,7 @@
     display: block;
   }
 
-  /* 6. Selo Oficial da Flórida - Mantido seu alinhamento perfeito */
+  /* 6. Selo Oficial da Flórida */
   .imagem-selo {
     position: absolute;
     bottom: 10%;       
@@ -383,14 +386,7 @@ if (!id) {
         nomeElemento.style.fontSize = fontSize + 'px';
       }
 
-    }) // Fechamento do .then
-    .catch(error => {
-      document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
-      console.error(error);
-    });
-}
-
-    })
+    }) // Fechamento correto do .then
     .catch(error => {
       document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
       console.error(error);
