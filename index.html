@@ -108,50 +108,49 @@
     color: #111111;
   }
 
-  /* -------------------------------------------------------
-     COORDENADAS DE AJUSTE (Altere os valores para testar)
-     ------------------------------------------------------- */
-
-  /* 1. Subtítulo Vermelho (OF THE MASTER OF...) */
+  /* 1. Subtítulo Vermelho (OF THE MASTER OF...) - Mantido seu alinhamento perfeito */
   .nome-curso-topo {
-    top: 26%;       /* Aumente para DESCER / Diminua para SUBIR */
-    left: 10.5%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
+    top: 26%;       
+    left: 10.5%;      
     width: 70%;
 
     font-family: 'Baloo 2', sans-serif;
     font-size: 24px;
-    font-weight: 350;  /* Sem negrito */
-    color: #c10303;   /* Vermelho exato solicitado */
+    font-weight: 350;  
+    color: #c10303;   
     text-transform: uppercase;
     letter-spacing: 3px;
     text-align: left;
   }
 
-  /* 2. Nome do Aluno (Posicionado para sentar bem em cima da linha preta física) */
+  /* 2. AJUSTADO: Nome do Aluno alinhado matematicamente pela BASE */
   .nome-aluno-container {
     position: absolute;
-    top: 40.5%;         /* Aumente para DESCER / Diminua para SUBIR */
-    left: 10.5%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
-    width: 55%;
+    top: 46.5%;       /* Alinha o contêiner exatamente em cima da linha física */
+    left: 10.5%;      /* Mantido seu alinhamento perfeito */
+    width: 60%;       /* Largura estendida para evitar quebras precoces */
     text-align: left;
+    
+    /* MÁGICA: Puxa o texto para cima a partir da sua base, colando-o perfeitamente na linha */
+    transform: translateY(-100%); 
   }
 
   .nome-aluno {
     font-family: 'Tan Angleton', 'Playfair Display', 'Times New Roman', serif;
-    font-weight: normal; /* Sem negrito */
+    font-weight: normal; 
     margin: 0;
-    line-height: 1.1;
+    line-height: 1.0;  /* Travado em 1.0 para manter a precisão do alinhamento */
     color: #111827;
     white-space: nowrap; 
   }
 
-  /* 3. Bloco de Textos de Conclusão (Sempre fixado abaixo da linha física) */
+  /* 3. Bloco de Textos de Conclusão - Mantido seu alinhamento perfeito */
   .bloco-textos-inferiores {
     position: absolute;
-    top: 51%;       /* Aumente para DESCER / Diminua para SUBIR */
-    left: 10.5%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
+    top: 51%;       
+    left: 10.5%;      
     width: 50%;        
-    height: 115px;    /* Distribui proporcionalmente o espaço entre os 3 parágrafos */
+    height: 115px;    
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
@@ -161,7 +160,7 @@
   .texto-conclusao {
     font-family: 'Baloo 2', sans-serif;
     font-size: 15.5px;
-    font-weight: 400; /* Sem negrito */
+    font-weight: 400; 
     color: #374151;
     line-height: 1.4;
     margin: 0;
@@ -170,33 +169,32 @@
   .carga-horaria {
     font-family: 'Baloo 2', sans-serif;
     font-size: 15.5px;
-    font-weight: 500; /* Sem negrito */
+    font-weight: 500; 
     color: #1f2937;
     margin: 0;
   }
 
-  /* Modificado: Fonte reduzida e line-height ajustada para a quebra de linha */
   .texto-data-conclusao {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 13px; /* Reduzido de 13px para 11.5px (Fica menor do que os outros) */
-    font-weight: 400;  /* Sem negrito */
-    color: #4b5563;    /* Um cinza escuro mais suave e elegante */
+    font-size: 13px; 
+    font-weight: 400;  
+    color: #4b5563;    
     margin: 0;
-    line-height: 1.35;  /* Dá um respiro confortável entre as linhas quebradas */
+    line-height: 1.35;  
   }
 
-  /* 4. Rodapé do Certificado (Apenas ID do lado esquerdo) */
+  /* 4. Rodapé do Certificado - Mantido seu alinhamento perfeito */
   .id-credencial {
     bottom: 3%;
     left: 80%;
     font-family: 'Segoe UI', sans-serif;
     font-size: 10px;
-    font-weight: normal; /* Sem negrito */
+    font-weight: normal; 
     text-decoration: none;
     color: #1f2937;
   }
 
-  /* 5. Autenticação QR Code (Canto Esquerdo) */
+  /* 5. Autenticação QR Code - Mantido seu alinhamento perfeito */
   .bloco-autenticidade {
     position: absolute;
     bottom: 7%;
@@ -219,14 +217,14 @@
     display: block;
   }
 
-  /* 6. Selo Oficial da Flórida (Implantado Dinamicamente por Cima) */
+  /* 6. Selo Oficial da Flórida - Mantido seu alinhamento perfeito */
   .imagem-selo {
     position: absolute;
-    bottom: 10%;       /* Aumente para SUBIR / Diminua para DESCER */
-    right: 22.5%;       /* Aumente para ir para a ESQUERDA / Diminua para a DIREITA */
-    width: 99px;      /* Tamanho do selo redondo */
+    bottom: 10%;       
+    right: 22.5%;       
+    width: 99px;      
     height: 99px;
-    z-index: 10;      /* Força a imagem a ficar sempre no topo do fundo */
+    z-index: 10;      
   }
 
   /* =======================================================
@@ -374,29 +372,29 @@ if (!id) {
         </div>
       `;
 
-      // --- AJUSTE DINÂMICO DE FONTE (AUTO-FIT) ---
+      // --- AJUSTE DINÂMICO DE FONTE AMPLIADO E SEGURO (AUTO-FIT) ---
       const nomeElemento = document.getElementById('dadosNome');
       const tamanhoNome = cert.nome.length;
 
       // Se o nome for gigantesco (Ex: Jéssica Daniele Pereira de Lima Cruz - 36 letras)
       if (tamanhoNome > 35) {
-        nomeElemento.style.fontSize = '26px';
+        nomeElemento.style.fontSize = '28px'; // Aumentado para 28px para melhor legibilidade
       } 
       // Se o nome for grande (Ex: Eduardo Henrique Moraes Santos - 29 letras)
       else if (tamanhoNome > 25) {
-        nomeElemento.style.fontSize = '32px';
+        nomeElemento.style.fontSize = '34px'; // Aumentado para 34px
       } 
       // Se o nome for médio (Ex: Rodolpho Amorim Moreira - 23 letras)
       else if (tamanhoNome > 18) {
-        nomeElemento.style.fontSize = '40px';
+        nomeElemento.style.fontSize = '42px'; // Aumentado para 42px
       } 
       // Se o nome for curto (Ex: Denise Davidson - 15 letras)
       else {
-        nomeElemento.style.fontSize = '50px';
+        nomeElemento.style.fontSize = '50px'; // Tamanho máximo perfeito para nomes curtos
       }
 
-    }) // <-- Fechamento do .then que estava faltando
-    .catch(error => { // <-- Bloco de erro .catch restaurado
+    })
+    .catch(error => {
       document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
       console.error(error);
     });
