@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Verification - Arkia</title>
 
-<!-- IMPORTANTE: Importando a fonte Baloo 2 e a de fallback (Playfair Display) direto do Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
 
 <style>
-  /* Fonte TAN ANGLETON (Carregada localmente se o arquivo estiver na pasta) */
+  /* Como carregar a fonte TAN ANGLETON no seu certificado:
+     Basta subir o arquivo da fonte (ex: tan-angleton.ttf ou tan-angleton.woff2) 
+     na mesma pasta do seu GitHub! */
   @font-face {
     font-family: 'Tan Angleton';
     src: url('tan-angleton.woff2') format('woff2'),
@@ -111,14 +112,13 @@
     color: #111111;
   }
 
-  /* 1. Subtítulo Vermelho Ajustado com a Fonte Baloo 2 e Cor Exata */
+  /* 1. Subtítulo em Vermelho Dinâmico */
   .nome-curso-topo {
     top: 27.5%;
     left: 14.5%;
-    font-family: 'Baloo 2', sans-serif; /* Aplicada a fonte Baloo 2 */
     font-size: 16px;
-    font-weight: 800; /* Deixa o subtítulo com peso marcante */
-    color: #c10303;   /* Cor vermelha exata solicitada */
+    font-weight: bold;
+    color: #b91c1c; /* Vermelho escuro elegante do novo modelo */
     text-transform: uppercase;
     letter-spacing: 1.5px;
     width: 55%;
@@ -137,6 +137,7 @@
     text-align: left;
   }
   
+  /* Aplicando a fonte Tan Angleton com queda para Playfair Display */
   .nome-aluno {
     font-family: 'Tan Angleton', 'Playfair Display', 'Times New Roman', serif;
     font-weight: normal;
@@ -147,29 +148,25 @@
   }
 
   .texto-conclusao {
-    font-family: 'Baloo 2', sans-serif; /* Aplicado Baloo 2 */
-    font-size: 14.5px; /* Ajustado levemente para melhor legibilidade na Baloo 2 */
+    font-size: 13.5px;
     color: #374151;
     line-height: 1.4;
     margin: 0;
   }
 
   .carga-horaria {
-    font-family: 'Baloo 2', sans-serif; /* Aplicado Baloo 2 */
-    font-size: 14px;
-    font-weight: 800; /* Peso forte característico da Baloo */
+    font-size: 13px;
+    font-weight: bold;
     color: #1f2937;
     margin: 0;
   }
 
   .texto-data-conclusao {
-    font-family: 'Baloo 2', sans-serif; /* Aplicado Baloo 2 */
-    font-size: 13.5px;
+    font-size: 13px;
     color: #374151;
     margin: 0;
   }
 
-  
   /* 3. Rodapé do Certificado (Validadores) */
   .id-credencial {
     bottom: 3%;
@@ -345,25 +342,20 @@ if (!id) {
         <div class="certificado-area">
           <img src="fundo-certificado.png" class="certificado-fundo" alt="Certificado Fundo">
           
-          <!-- Subtítulo Vermelho Dinâmico adaptado com Baloo 2 -->
           <div class="texto-dinamico nome-curso-topo">OF THE MASTER OF ${cert.curso.toUpperCase()}</div>
           
           <div class="bloco-conteudo-central">
-            <!-- ID "dadosNome" necessário para o script calcular o tamanho da fonte -->
             <h2 class="nome-aluno" id="dadosNome">${cert.nome}</h2>
             <p class="texto-conclusao">Has successfully completed the Master of <strong>${cert.curso}</strong> Certificate program.</p>
             <p class="carga-horaria">Workload - ${cert.carga_horaria} hours</p>
             <p class="texto-data-conclusao">This award was presented on ${dataApresentacaoFormatada} in Florida, USA.</p>
           </div>
           
-          <!-- Rodapés Sublinhados com ID e Data -->
           <div class="texto-dinamico id-credencial">${cert.certificate_id}</div>
           <div class="texto-dinamico data-emissao">Issued: ${cert.data_emissao}</div>
           
-          <!-- Pequeno ano dinâmico sobre o selo redondo da Florida -->
           <div class="texto-dinamico ano-do-selo">${anoCertificado}</div>
           
-          <!-- Bloco Autêntico de Verificação no canto esquerdo -->
           <div class="bloco-autenticidade">
             <span class="texto-verificacao">Verify authenticity at</span>
             <img class="qr-code" src="${urlQrCode}" alt="QR Code">
@@ -372,6 +364,7 @@ if (!id) {
       `;
 
       // --- AJUSTE INTELIGENTE DE TAMANHO DE FONTE (AUTO-FIT) ---
+      // Caso o nome seja muito grande, reduzimos o tamanho para nunca quebrar a linha ou sair do certificado
       const nomeElemento = document.getElementById('dadosNome');
       const tamanhoNome = cert.nome.length;
 
