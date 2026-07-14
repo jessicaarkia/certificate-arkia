@@ -148,7 +148,7 @@
   /* 3. Bloco de Textos de Conclusão (Sempre fixado abaixo da linha física) */
   .bloco-textos-inferiores {
     position: absolute;
-    top: 50%;       /* Aumente para DESCER / Diminua para SUBIR */
+    top: 55%;       /* Aumente para DESCER / Diminua para SUBIR */
     left: 10%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
     width: 55%;        
     height: 110px;    /* Distribui proporcionalmente o espaço entre os 3 parágrafos */
@@ -178,7 +178,7 @@
   /* Modificado: Fonte reduzida e line-height ajustada para a quebra de linha */
   .texto-data-conclusao {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 11.5px; /* Reduzido de 13px para 11.5px (Fica menor do que os outros) */
+    font-size: 12px; /* Reduzido de 13px para 11.5px (Fica menor do que os outros) */
     font-weight: 400;  /* Sem negrito */
     color: #4b5563;    /* Um cinza escuro mais suave e elegante */
     margin: 0;
@@ -188,7 +188,7 @@
   /* 4. Rodapé do Certificado (Apenas ID do lado esquerdo) */
   .id-credencial {
     bottom: 3%;
-    left: 35%;
+    left: 50%;
     font-family: 'Segoe UI', sans-serif;
     font-size: 11px;
     font-weight: normal; /* Sem negrito */
@@ -199,8 +199,8 @@
   /* 5. Autenticação QR Code (Canto Esquerdo) */
   .bloco-autenticidade {
     position: absolute;
-    bottom: 5%;
-    left: 3%;
+    bottom: 7%;
+    left: 2%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -208,7 +208,7 @@
   }
 
   .texto-verificacao {
-    font-size: 7.5px;
+    font-size: 7px;
     color: #6b7280;
     font-family: Arial, sans-serif;
   }
@@ -222,9 +222,9 @@
   /* 6. Selo Oficial da Flórida (Implantado Dinamicamente por Cima) */
   .imagem-selo {
     position: absolute;
-    bottom: 10%;       /* Aumente para SUBIR / Diminua para DESCER */
+    bottom: 12%;       /* Aumente para SUBIR / Diminua para DESCER */
     right: 22%;       /* Aumente para ir para a ESQUERDA / Diminua para a DIREITA */
-    width: 75px;      /* Tamanho do selo redondo */
+    width: 85px;      /* Tamanho do selo redondo */
     height: 75px;
     z-index: 10;      /* Força a imagem a ficar sempre no topo do fundo */
   }
