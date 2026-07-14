@@ -114,8 +114,8 @@
 
   /* 1. Subtítulo Vermelho (OF THE MASTER OF...) */
   .nome-curso-topo {
-    top: 24.5%;       /* Aumente para DESCER / Diminua para SUBIR */
-    left: 11%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
+    top: 26%;       /* Aumente para DESCER / Diminua para SUBIR */
+    left: 10%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
     width: 55%;
 
     font-family: 'Baloo 2', sans-serif;
@@ -131,7 +131,7 @@
   .nome-aluno-container {
     position: absolute;
     top: 42%;         /* Aumente para DESCER / Diminua para SUBIR */
-    left: 11%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
+    left: 10%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
     width: 55%;
     text-align: left;
   }
@@ -148,8 +148,8 @@
   /* 3. Bloco de Textos de Conclusão (Sempre fixado abaixo da linha física) */
   .bloco-textos-inferiores {
     position: absolute;
-    top: 48.5%;       /* Aumente para DESCER / Diminua para SUBIR */
-    left: 11%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
+    top: 50%;       /* Aumente para DESCER / Diminua para SUBIR */
+    left: 10%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
     width: 55%;        
     height: 110px;    /* Distribui proporcionalmente o espaço entre os 3 parágrafos */
     display: flex;
@@ -387,22 +387,22 @@ if (!id) {
       const nomeElemento = document.getElementById('dadosNome');
       const tamanhoNome = cert.nome.length;
 
+      // Se o nome for gigantesco (Ex: Jéssica Daniele Pereira de Lima Cruz - 36 letras)
       if (tamanhoNome > 35) {
-        nomeElemento.style.fontSize = '20px';
-      } else if (tamanhoNome > 28) {
-        nomeElemento.style.fontSize = '25px';
-      } else if (tamanhoNome > 20) {
-        nomeElemento.style.fontSize = '30px';
-      } else {
-        nomeElemento.style.fontSize = '35px';
+        nomeElemento.style.fontSize = '26px'; // Aumentado de 20px para 26px
+      } 
+      // Se o nome for grande (Ex: Eduardo Henrique Moraes Santos - 29 letras)
+      else if (tamanhoNome > 25) {
+        nomeElemento.style.fontSize = '32px'; // Aumentado de 25px para 32px
+      } 
+      // Se o nome for médio (Ex: Rodolpho Amorim Moreira - 23 letras)
+      else if (tamanhoNome > 18) {
+        nomeElemento.style.fontSize = '40px'; // Aumentado de 30px para 40px
+      } 
+      // Se o nome for curto (Ex: Denise Davidson - 15 letras)
+      else {
+        nomeElemento.style.fontSize = '50px'; // Aumentado de 35px para 50px (Destaque máximo!)
       }
-
-    })
-    .catch(error => {
-      document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
-      console.error(error);
-    });
-}
 </script>
 
 </body>
