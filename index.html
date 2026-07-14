@@ -175,28 +175,20 @@
     margin: 0;
   }
 
+  /* Modificado: Fonte reduzida e line-height ajustada para a quebra de linha */
   .texto-data-conclusao {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 13px;
-    font-weight: 400; /* Sem negrito */
-    color: #374151;
+    font-size: 11.5px; /* Reduzido de 13px para 11.5px (Fica menor do que os outros) */
+    font-weight: 400;  /* Sem negrito */
+    color: #4b5563;    /* Um cinza escuro mais suave e elegante */
     margin: 0;
+    line-height: 1.35;  /* Dá um respiro confortável entre as linhas quebradas */
   }
 
-  /* 4. Rodapé do Certificado (ID e Data) */
+  /* 4. Rodapé do Certificado (Apenas ID do lado esquerdo) */
   .id-credencial {
     bottom: 3%;
     left: 35%;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 11px;
-    font-weight: normal; /* Sem negrito */
-    text-decoration: underline;
-    color: #1f2937;
-  }
-
-  .data-emissao {
-    bottom: 3%;
-    right: 40%;
     font-family: 'Segoe UI', sans-serif;
     font-size: 11px;
     font-weight: normal; /* Sem negrito */
@@ -368,11 +360,10 @@ if (!id) {
           <div class="bloco-textos-inferiores">
             <p class="texto-conclusao">Has successfully completed the Master of ${cert.curso} Certificate program.</p>
             <p class="carga-horaria">Workload - ${cert.carga_horaria} hours</p>
-            <p class="texto-data-conclusao">This award was presented on ${dataApresentacaoFormatada} in Florida, USA.</p>
+            <p class="texto-data-conclusao">This award was presented on<br>${dataApresentacaoFormatada} in Florida, USA.</p>
           </div>
           
           <div class="texto-dinamico id-credencial">${cert.certificate_id}</div>
-          <div class="texto-dinamico data-emissao">Issued: ${cert.data_emissao}</div>
           
           <img class="texto-dinamico imagem-selo" src="selo-${anoCertificado}.png" alt="Selo Oficial">
           
@@ -389,20 +380,27 @@ if (!id) {
 
       // Se o nome for gigantesco (Ex: Jéssica Daniele Pereira de Lima Cruz - 36 letras)
       if (tamanhoNome > 35) {
-        nomeElemento.style.fontSize = '26px'; // Aumentado de 20px para 26px
+        nomeElemento.style.fontSize = '26px';
       } 
       // Se o nome for grande (Ex: Eduardo Henrique Moraes Santos - 29 letras)
       else if (tamanhoNome > 25) {
-        nomeElemento.style.fontSize = '32px'; // Aumentado de 25px para 32px
+        nomeElemento.style.fontSize = '32px';
       } 
       // Se o nome for médio (Ex: Rodolpho Amorim Moreira - 23 letras)
       else if (tamanhoNome > 18) {
-        nomeElemento.style.fontSize = '40px'; // Aumentado de 30px para 40px
+        nomeElemento.style.fontSize = '40px';
       } 
       // Se o nome for curto (Ex: Denise Davidson - 15 letras)
       else {
-        nomeElemento.style.fontSize = '50px'; // Aumentado de 35px para 50px (Destaque máximo!)
+        nomeElemento.style.fontSize = '50px';
       }
+
+    }) // <-- Fechamento do .then que estava faltando
+    .catch(error => { // <-- Bloco de erro .catch restaurado
+      document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
+      console.error(error);
+    });
+}
 </script>
 
 </body>
