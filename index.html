@@ -5,12 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Verification - Arkia</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
-  /* Como carregar a fonte TAN ANGLETON no seu certificado:
-     Basta subir o arquivo da fonte (ex: tan-angleton.ttf ou tan-angleton.woff2) 
-     na mesma pasta do seu GitHub! */
+  /* Fonte TAN ANGLETON (Carregada localmente se o arquivo estiver na pasta do GitHub) */
   @font-face {
     font-family: 'Tan Angleton';
     src: url('tan-angleton.woff2') format('woff2'),
@@ -46,8 +44,8 @@
 
   .logo { width: 140px; margin-bottom: 20px; }
   h1 { margin: 10px 0; color: #0f172a; font-size: 24px; }
-  .valid { color: #16a34a; font-weight: bold; font-size: 18px; margin: 10px 0; }
-  .invalid { color: #dc2626; font-weight: bold; font-size: 18px; margin: 10px 0; }
+  .valid { color: #16a34a; font-weight: normal; font-size: 18px; margin: 10px 0; }
+  .invalid { color: #dc2626; font-weight: normal; font-size: 18px; margin: 10px 0; }
 
   /* Painel de Controle Superior */
   .painel-controle {
@@ -72,7 +70,6 @@
   .btn-baixar, .btn-linkedin {
     padding: 12px 24px;
     border-radius: 8px;
-    font-weight: bold;
     font-size: 14px;
     cursor: pointer;
     text-decoration: none;
@@ -108,71 +105,91 @@
 
   .texto-dinamico {
     position: absolute;
-    font-family: 'Arial', sans-serif;
     color: #111111;
   }
 
-  /* 1. Subtítulo em Vermelho Dinâmico */
+  /* -------------------------------------------------------
+     COORDENADAS DE AJUSTE (Altere os valores para testar)
+     ------------------------------------------------------- */
+
+  /* 1. Subtítulo Vermelho (OF THE MASTER OF...) */
   .nome-curso-topo {
-    top: 27.5%;
-    left: 14.5%;
-    font-size: 16px;
-    font-weight: bold;
-    color: #b91c1c; /* Vermelho escuro elegante do novo modelo */
+    top: 24.5%;       /* Aumente para DESCER / Diminua para SUBIR */
+    left: 14.5%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
+    width: 55%;
+
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 15px;
+    font-weight: 500;  /* Sem negrito */
+    color: #c10303;   /* Vermelho exato solicitado */
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    width: 55%;
+    text-align: left;
   }
 
-  /* 2. Bloco Central (Nome, Descrição, Horas, Data) */
-  .bloco-conteudo-central {
+  /* 2. Nome do Aluno (Posicionado para sentar bem em cima da linha preta física) */
+  .nome-aluno-container {
     position: absolute;
-    top: 36.5%;          
-    left: 14.5%;         
+    top: 38%;         /* Aumente para DESCER / Diminua para SUBIR */
+    left: 14.5%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
+    width: 55%;
+    text-align: left;
+  }
+
+  .nome-aluno {
+    font-family: 'Tan Angleton', 'Playfair Display', 'Times New Roman', serif;
+    font-weight: normal; /* Sem negrito */
+    margin: 0;
+    line-height: 1.1;
+    color: #111827;
+    white-space: nowrap; 
+  }
+
+  /* 3. Bloco de Textos de Conclusão (Sempre fixado abaixo da linha física) */
+  .bloco-textos-inferiores {
+    position: absolute;
+    top: 48.5%;       /* Aumente para DESCER / Diminua para SUBIR */
+    left: 14.5%;      /* Aumente para ir para a DIREITA / Diminua para a ESQUERDA */
     width: 55%;        
-    height: 195px;     
+    height: 110px;    /* Distribui proporcionalmente o espaço entre os 3 parágrafos */
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
     text-align: left;
   }
-  
-  /* Aplicando a fonte Tan Angleton com queda para Playfair Display */
-  .nome-aluno {
-    font-family: 'Tan Angleton', 'Playfair Display', 'Times New Roman', serif;
-    font-weight: normal;
-    margin: 0;
-    line-height: 1.1;
-    color: #111827;
-    white-space: nowrap; /* Impede o nome de quebrar linha */
-  }
 
   .texto-conclusao {
-    font-size: 13.5px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 14.5px;
+    font-weight: 400; /* Sem negrito */
     color: #374151;
     line-height: 1.4;
     margin: 0;
   }
 
   .carga-horaria {
-    font-size: 13px;
-    font-weight: bold;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 14px;
+    font-weight: 500; /* Sem negrito */
     color: #1f2937;
     margin: 0;
   }
 
   .texto-data-conclusao {
-    font-size: 13px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13.5px;
+    font-weight: 400; /* Sem negrito */
     color: #374151;
     margin: 0;
   }
 
-  /* 3. Rodapé do Certificado (Validadores) */
+  /* 4. Rodapé do Certificado (ID e Data) */
   .id-credencial {
     bottom: 3%;
     left: 27.5%;
+    font-family: 'Segoe UI', sans-serif;
     font-size: 11px;
-    font-weight: bold;
+    font-weight: normal; /* Sem negrito */
     text-decoration: underline;
     color: #1f2937;
   }
@@ -180,13 +197,14 @@
   .data-emissao {
     bottom: 3%;
     right: 31%;
+    font-family: 'Segoe UI', sans-serif;
     font-size: 11px;
-    font-weight: bold;
+    font-weight: normal; /* Sem negrito */
     text-decoration: underline;
     color: #1f2937;
   }
 
-  /* 4. Elementos de Autenticação (QR Code Canto Esquerdo) */
+  /* 5. Autenticação QR Code (Canto Esquerdo) */
   .bloco-autenticidade {
     position: absolute;
     bottom: 5.5%;
@@ -209,13 +227,14 @@
     display: block;
   }
 
-  /* 5. Posicionamento do ano no pequeno selo redondo da Florida */
-  .ano-do-selo {
-    bottom: 12.8%; 
-    right: 23.5%; 
-    font-size: 10px;
-    font-weight: bold;
-    color: #4b5563;
+  /* 6. Selo Oficial da Flórida (Implantado Dinamicamente por Cima) */
+  .imagem-selo {
+    position: absolute;
+    bottom: 8%;       /* Aumente para SUBIR / Diminua para DESCER */
+    right: 21%;       /* Aumente para ir para a ESQUERDA / Diminua para a DIREITA */
+    width: 68px;      /* Tamanho do selo redondo */
+    height: 68px;
+    z-index: 10;      /* Força a imagem a ficar sempre no topo do fundo */
   }
 
   /* =======================================================
@@ -321,8 +340,6 @@ if (!id) {
 
       const urlAtual = window.location.href;
       const urlQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlAtual)}`;
-      
-      // Conexão direta com a emissora Datatech Florida no LinkedIn
       const linkLinkedin = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(cert.curso)}&organizationName=Datatech%20Florida&issueMonth=${mesCertificado}&issueYear=${anoCertificado}&certId=${cert.certificate_id}&certUrl=${encodeURIComponent(urlAtual)}`;
       
       const dataApresentacaoFormatada = formatarDataExtensoIngles(cert.data_emissao);
@@ -344,9 +361,12 @@ if (!id) {
           
           <div class="texto-dinamico nome-curso-topo">OF THE MASTER OF ${cert.curso.toUpperCase()}</div>
           
-          <div class="bloco-conteudo-central">
+          <div class="nome-aluno-container">
             <h2 class="nome-aluno" id="dadosNome">${cert.nome}</h2>
-            <p class="texto-conclusao">Has successfully completed the Master of <strong>${cert.curso}</strong> Certificate program.</p>
+          </div>
+          
+          <div class="bloco-textos-inferiores">
+            <p class="texto-conclusao">Has successfully completed the Master of ${cert.curso} Certificate program.</p>
             <p class="carga-horaria">Workload - ${cert.carga_horaria} hours</p>
             <p class="texto-data-conclusao">This award was presented on ${dataApresentacaoFormatada} in Florida, USA.</p>
           </div>
@@ -354,7 +374,7 @@ if (!id) {
           <div class="texto-dinamico id-credencial">${cert.certificate_id}</div>
           <div class="texto-dinamico data-emissao">Issued: ${cert.data_emissao}</div>
           
-          <div class="texto-dinamico ano-do-selo">${anoCertificado}</div>
+          <img class="texto-dinamico imagem-selo" src="selo-${anoCertificado}.png" alt="Selo Oficial">
           
           <div class="bloco-autenticidade">
             <span class="texto-verificacao">Verify authenticity at</span>
@@ -363,8 +383,7 @@ if (!id) {
         </div>
       `;
 
-      // --- AJUSTE INTELIGENTE DE TAMANHO DE FONTE (AUTO-FIT) ---
-      // Caso o nome seja muito grande, reduzimos o tamanho para nunca quebrar a linha ou sair do certificado
+      // --- AJUSTE DINÂMICO DE FONTE (AUTO-FIT) ---
       const nomeElemento = document.getElementById('dadosNome');
       const tamanhoNome = cert.nome.length;
 
@@ -375,7 +394,7 @@ if (!id) {
       } else if (tamanhoNome > 20) {
         nomeElemento.style.fontSize = '30px';
       } else {
-        nomeElemento.style.fontSize = '35px'; // Tamanho original do layout
+        nomeElemento.style.fontSize = '35px';
       }
 
     })
