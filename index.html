@@ -122,6 +122,9 @@
     text-transform: uppercase;
     letter-spacing: 3px;
     text-align: left;
+
+    /* NOVO: Impede que o curso quebre a linha e force o overlap */
+    white-space: nowrap; 
   }
 
   /* 2. Nome do Aluno (Alinhado perfeitamente pela base na linha física) */
@@ -393,7 +396,21 @@ if (!id) {
       console.error(error);
     });
 }
-</script>
 
+    // --- AJUSTE DINÂMICO DE FONTE DO CURSO (AUTO-FIT) ---
+      const cursoElemento = document.querySelector('.nome-curso-topo');
+      // Como a largura máxima definida no CSS é 70% de 842px, o limite é de 589px
+      const maxCursoWidth = 589; 
+      let cursoFontSize = 24; // Começa com o seu tamanho padrão de 24px
+      
+      cursoElemento.style.fontSize = cursoFontSize + 'px';
+
+      // Reduz o tamanho da fonte de 1 em 1 pixel até que o curso caiba perfeitamente em uma linha
+      while (cursoElemento.scrollWidth > maxCursoWidth && cursoFontSize > 12) {
+        cursoFontSize--;
+        cursoElemento.style.fontSize = cursoFontSize + 'px';
+}
+
+</script>
 </body>
 </html>
