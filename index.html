@@ -5,8 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Verification - Arkia</title>
 
+<!-- IMPORTANTE: Importando a fonte Baloo 2 e a de fallback (Playfair Display) direto do Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+
 <style>
-  /* Configuração da Tela do Computador */
+  /* Fonte TAN ANGLETON (Carregada localmente se o arquivo estiver na pasta) */
+  @font-face {
+    font-family: 'Tan Angleton';
+    src: url('tan-angleton.woff2') format('woff2'),
+         url('tan-angleton.woff') format('woff'),
+         url('tan-angleton.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
   body {
     margin: 0;
     font-family: 'Segoe UI', system-ui, sans-serif;
@@ -31,17 +43,8 @@
     margin-top: 10vh;
   }
 
-  .logo {
-    width: 140px;
-    margin-bottom: 20px;
-  }
-
-  h1 {
-    margin: 10px 0;
-    color: #0f172a;
-    font-size: 24px;
-  }
-
+  .logo { width: 140px; margin-bottom: 20px; }
+  h1 { margin: 10px 0; color: #0f172a; font-size: 24px; }
   .valid { color: #16a34a; font-weight: bold; font-size: 18px; margin: 10px 0; }
   .invalid { color: #dc2626; font-weight: bold; font-size: 18px; margin: 10px 0; }
 
@@ -78,7 +81,6 @@
     align-items: center;
     gap: 8px;
   }
-
   .btn-baixar { background-color: #0f172a; color: white; }
   .btn-baixar:hover { background-color: #334155; }
   .btn-linkedin { background-color: #0a66c2; color: white; }
@@ -109,97 +111,121 @@
     color: #111111;
   }
 
-  /* Alinhamento dos Textos Principais */
+  /* 1. Subtítulo Vermelho Ajustado com a Fonte Baloo 2 e Cor Exata */
   .nome-curso-topo {
-    top: 4%;
-    left: 27%;
-    font-size: 25px;
-    font-weight: 800;
+    top: 27.5%;
+    left: 14.5%;
+    font-family: 'Baloo 2', sans-serif; /* Aplicada a fonte Baloo 2 */
+    font-size: 16px;
+    font-weight: 800; /* Deixa o subtítulo com peso marcante */
+    color: #c10303;   /* Cor vermelha exata solicitada */
     text-transform: uppercase;
-    width: 65%;
+    letter-spacing: 1.5px;
+    width: 55%;
   }
 
-  /* Bloco unificado com seus parâmetros numéricos mantidos */
+  /* 2. Bloco Central (Nome, Descrição, Horas, Data) */
   .bloco-conteudo-central {
     position: absolute;
-    top: 23%;          
-    left: 27%;         
-    width: 58%;
-    height: 255px;     /* NOVO: Trava a altura do bloco exatamente até a assinatura */
+    top: 36.5%;          
+    left: 14.5%;         
+    width: 55%;        
+    height: 195px;     
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* NOVO: Distribui os espaços vazios de forma automática */       
+    justify-content: space-between; 
     text-align: left;
   }
   
   .nome-aluno {
-    font-size: 35px;
-    font-weight: 800;
+    font-family: 'Tan Angleton', 'Playfair Display', 'Times New Roman', serif;
+    font-weight: normal;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.1;
+    color: #111827;
+    white-space: nowrap; /* Impede o nome de quebrar linha */
   }
 
   .texto-conclusao {
-    font-size: 18px;
-    color: #222222;
+    font-size: 13.5px;
+    color: #374151;
     line-height: 1.4;
     margin: 0;
   }
 
   .carga-horaria {
-    font-size: 18px;
+    font-size: 13px;
     font-weight: bold;
+    color: #1f2937;
     margin: 0;
   }
 
   .texto-data-conclusao {
-    font-size: 16px;
-    color: #222222;
+    font-size: 13px;
+    color: #374151;
     margin: 0;
-    font-weight: normal;
+  }
+
+  /* 3. Rodapé do Certificado (Validadores) */
+  .id-credencial {
+    bottom: 3%;
+    left: 27.5%;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #1f2937;
   }
 
   .data-emissao {
     bottom: 3%;
-    right: 24%;
-    font-size: 13px;
+    right: 31%;
+    font-size: 11px;
     font-weight: bold;
     text-decoration: underline;
+    color: #1f2937;
   }
 
-  .id-credencial {
-    bottom: 3%;
-    left: 27%;
-    font-size: 13px;
-    font-weight: bold;
-    text-decoration: underline;
+  /* 4. Elementos de Autenticação (QR Code Canto Esquerdo) */
+  .bloco-autenticidade {
+    position: absolute;
+    bottom: 5.5%;
+    left: 4.5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
 
-  /* Elementos Visuais Dinâmicos (Selo e QR Code) */
+  .texto-verificacao {
+    font-size: 7.5px;
+    color: #6b7280;
+    font-family: Arial, sans-serif;
+  }
+
   .qr-code {
-    bottom: 9%;
-    left: 7%;
-    width: 88px;
-    height: 88px;
+    width: 65px;
+    height: 65px;
+    display: block;
   }
 
-  .imagem-selo {
-    bottom: 17%; 
-    right: 24%; 
-    width: 87px; 
-    height: 87px;
+  /* 5. Posicionamento do ano no pequeno selo redondo da Florida */
+  .ano-do-selo {
+    bottom: 12.8%; 
+    right: 23.5%; 
+    font-size: 10px;
+    font-weight: bold;
+    color: #4b5563;
   }
 
-/* =======================================================
-     CORREÇÃO IMPRESSÃO IDÊNTICA AO SITE (CLONE PERFEITO)
+  /* =======================================================
+     IMPRESSÃO CONFIGURADA PARA CLONE PERFEITO
      ======================================================= */
   @page {
-    size: A4 landscape; /* Define o papel como A4 deitado */
-    margin: 0;          /* Elimina cabeçalhos, rodapés e margens do navegador */
+    size: A4 landscape;
+    margin: 0;
   }
 
   @media print {
-    /* Desativa completamente o Flexbox e todas as centralizações do site na impressão */
     html, body, #app-container {
       display: block !important;
       width: 842px !important;
@@ -210,13 +236,11 @@
       overflow: hidden !important;
     }
     
-    .no-print { 
-      display: none !important; /* Esconde botões e barras */
-    }
+    .no-print { display: none !important; }
     
     .certificado-area {
-      width: 842px !important;   /* Mantém o tamanho exato que está perfeito na tela */
-      height: 595px !important;  /* Mantém a altura exata que está perfeita na tela */
+      width: 842px !important;   
+      height: 595px !important;  
       position: absolute !important;
       top: 0 !important;
       left: 0 !important;
@@ -224,13 +248,10 @@
       padding: 0 !important;
       box-shadow: none !important;
       page-break-inside: avoid;
-
-      /* MÁGICA DO ALINHAMENTO: Escalona o layout do site para preencher o A4 perfeitamente */
       transform: scale(1.333); 
       transform-origin: top left;
     }
   }
-
 </style>
 </head>
 <body>
@@ -244,7 +265,6 @@
 </div>
 
 <script>
-// Função para converter datas "2026-05-11" em formato extenso descritivo em inglês
 function formatarDataExtensoIngles(dataString) {
   if (!dataString) return "";
   const partes = dataString.split('-');
@@ -269,7 +289,6 @@ function formatarDataExtensoIngles(dataString) {
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-// LINK CORRIGIDO: Removido o parâmetro de cache que causava o erro 404 no OpenSheet
 const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxyzLDZ5RQ/Sheet1";
 
 if (!id) {
@@ -281,7 +300,6 @@ if (!id) {
       return res.json();
     })
     .then(data => {
-      // Garante que a resposta da planilha seja uma lista antes de buscar
       if (!Array.isArray(data)) throw new Error("Dados inválidos recebidos");
 
       const cert = data.find(c => c.certificate_id === id);
@@ -302,11 +320,12 @@ if (!id) {
 
       const urlAtual = window.location.href;
       const urlQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlAtual)}`;
+      
+      // Conexão direta com a emissora Datatech Florida no LinkedIn
       const linkLinkedin = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(cert.curso)}&organizationName=Datatech%20Florida&issueMonth=${mesCertificado}&issueYear=${anoCertificado}&certId=${cert.certificate_id}&certUrl=${encodeURIComponent(urlAtual)}`;
       
       const dataApresentacaoFormatada = formatarDataExtensoIngles(cert.data_emissao);
 
-      // Injeta a estrutura completa corrigida com fechamentos estáveis
       document.getElementById("app-container").innerHTML = `
         <div class="painel-controle no-print">
           <img src="logo-arkia.png" style="width: 100px; margin-bottom: 5px;" alt="Arkia">
@@ -322,22 +341,46 @@ if (!id) {
         <div class="certificado-area">
           <img src="fundo-certificado.png" class="certificado-fundo" alt="Certificado Fundo">
           
-          <div class="texto-dinamico nome-curso-topo">${cert.curso}</div>
+          <!-- Subtítulo Vermelho Dinâmico adaptado com Baloo 2 -->
+          <div class="texto-dinamico nome-curso-topo">OF THE MASTER OF ${cert.curso.toUpperCase()}</div>
           
           <div class="bloco-conteudo-central">
-            <h2 class="nome-aluno">${cert.nome}</h2>
+            <!-- ID "dadosNome" necessário para o script calcular o tamanho da fonte -->
+            <h2 class="nome-aluno" id="dadosNome">${cert.nome}</h2>
             <p class="texto-conclusao">Has successfully completed the Master of <strong>${cert.curso}</strong> Certificate program.</p>
             <p class="carga-horaria">Workload - ${cert.carga_horaria} hours</p>
             <p class="texto-data-conclusao">This award was presented on ${dataApresentacaoFormatada} in Florida, USA.</p>
           </div>
           
-          <div class="texto-dinamico data-emissao">Issued: ${cert.data_emissao}</div>
+          <!-- Rodapés Sublinhados com ID e Data -->
           <div class="texto-dinamico id-credencial">${cert.certificate_id}</div>
+          <div class="texto-dinamico data-emissao">Issued: ${cert.data_emissao}</div>
           
-          <img class="texto-dinamico imagem-selo" src="selo-${anoCertificado}.png" alt="Selo Oficial">
-          <img id="qrCodeDinamico" class="texto-dinamico qr-code" src="${urlQrCode}" alt="QR Code">
+          <!-- Pequeno ano dinâmico sobre o selo redondo da Florida -->
+          <div class="texto-dinamico ano-do-selo">${anoCertificado}</div>
+          
+          <!-- Bloco Autêntico de Verificação no canto esquerdo -->
+          <div class="bloco-autenticidade">
+            <span class="texto-verificacao">Verify authenticity at</span>
+            <img class="qr-code" src="${urlQrCode}" alt="QR Code">
+          </div>
         </div>
       `;
+
+      // --- AJUSTE INTELIGENTE DE TAMANHO DE FONTE (AUTO-FIT) ---
+      const nomeElemento = document.getElementById('dadosNome');
+      const tamanhoNome = cert.nome.length;
+
+      if (tamanhoNome > 35) {
+        nomeElemento.style.fontSize = '20px';
+      } else if (tamanhoNome > 28) {
+        nomeElemento.style.fontSize = '25px';
+      } else if (tamanhoNome > 20) {
+        nomeElemento.style.fontSize = '30px';
+      } else {
+        nomeElemento.style.fontSize = '35px'; // Tamanho original do layout
+      }
+
     })
     .catch(error => {
       document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
