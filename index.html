@@ -112,7 +112,7 @@
   .nome-curso-topo {
     top: 26%;       
     left: 10.5%;      
-    width: 55%;         /* Mude apenas esta porcentagem aqui para testar o limite lateral! */
+    width: 60%;         /* 1. ALTERE ESTA PORCENTAGEM SE QUISER MAIS OU MENOS ESPAÇO PARA A DIREITA */
 
     font-family: 'Baloo 2', sans-serif;
     font-size: 24px;
@@ -121,8 +121,7 @@
     text-transform: uppercase;
     letter-spacing: 3px;
     text-align: left;
-    white-space: nowrap; /* OBRIGATÓRIO: impede quebras de linha antes do cálculo */
-    overflow: hidden;    /* Esconde o texto que vazar enquanto o JS calcula o tamanho */
+    white-space: nowrap; /* Impede que o curso quebre a linha */
   }
 
   /* 2. Nome do Aluno (Alinhado perfeitamente pela base na linha física) */
@@ -395,18 +394,37 @@ if (!id) {
     });
 }
 
-    // --- AJUSTE DINÂMICO DE FONTE DO CURSO (AUTO-FIT AUTOMÁTICO) ---
+    // --- AJUSTE DINÂMICO DE FONTE DO CURSO (AUTO-FIT CORRIGIDO E SEGURO) ---
       const cursoElemento = document.querySelector('.nome-curso-topo');
-      let cursoFontSize = 24; // Tamanho inicial máximo
       
+      // Remove temporariamente as restrições para medir o tamanho real do texto "invisível"
+      cursoElemento.style.width = 'auto';
+      cursoElemento.style.display = 'inline-block';
+      
+      // 2. MULTIPLIQUE O VALOR ABAIXO PELA MESMA PORCENTAGEM DO SEU CSS:
+      // Ex: se no CSS você colocar width: 55% -> mude aqui para 0.55
+      // Ex: se no CSS você colocar width: 53% -> mude aqui para 0.53
+      const maxCursoWidth = 842 * 0.60; 
+      
+      let cursoFontSize = 24; 
       cursoElemento.style.fontSize = cursoFontSize + 'px';
 
-      // O JS agora pergunta diretamente ao CSS qual é o limite físico (clientWidth)
-      while (cursoElemento.scrollWidth > cursoElemento.clientWidth && cursoFontSize > 12) {
+      // O loop agora roda perfeitamente sem cortes
+      while (cursoElemento.offsetWidth > maxCursoWidth && cursoFontSize > 12) {
         cursoFontSize--;
         cursoElemento.style.fontSize = cursoFontSize + 'px';
-}
+      }
 
+      // Restaura a largura e comportamento padrão definidos no seu CSS
+      cursoElemento.style.width = '55%'; // Altere aqui para a mesma porcentagem do CSS
+      cursoElemento.style.display = '';
+
+    }) // Fechamento do .then
+    .catch(error => {
+      document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
+      console.error(error);
+    });
+}
 </script>
 </body>
 </html>
