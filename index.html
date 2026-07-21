@@ -112,7 +112,7 @@
   .nome-curso-topo {
     top: 26%;       
     left: 10.5%;      
-    width: 70%;
+    width: 60%;
 
     font-family: 'Baloo 2', sans-serif;
     font-size: 24px;
@@ -121,17 +121,16 @@
     text-transform: uppercase;
     letter-spacing: 3px;
     text-align: left;
+    white-space: nowrap;
   }
 
-  /* 2. Nome do Aluno (Alinhado pela base com segurança extra) */
+  /* 2. Nome do Aluno (Alinhado perfeitamente pela base na linha física) */
   .nome-aluno-container {
     position: absolute;
-    top: 46.5%;         /* Ajuste esta porcentagem se o nome precisar subir ou descer um pouquinho na linha */
+    top: 46.5%;         
     left: 10.5%;      
-    width: 55%;         
+    width: 58%;         
     text-align: left;
-    
-    /* Puxa o texto para cima a partir da sua linha de base inferior */
     transform: translateY(-100%); 
   }
 
@@ -139,7 +138,7 @@
     font-family: 'Tan Angleton', 'Playfair Display', 'Times New Roman', serif;
     font-weight: normal; 
     margin: 0;
-    line-height: 1.0;  /* Mantido em 1.0 para precisão milimétrica */
+    line-height: 1.0;  
     color: #111827;
     white-space: nowrap; 
   }
@@ -149,8 +148,8 @@
     position: absolute;
     top: 51%;       
     left: 10.5%;      
-    width: 50%;        
-    height: 115px;    
+    width: 57%;        
+    height: 135px;    
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
@@ -180,15 +179,16 @@
     font-weight: 400;  
     color: #4b5563;    
     margin: 0;
+    margin-top: 10px;  
     line-height: 1.35;  
   }
 
-  /* 4. Rodapé do Certificado (ID de Credencial) */
+  /* 4. Rodapé do Certificado */
   .id-credencial {
-    bottom: 3%;
-    left: 80%;
+    bottom: 4.5%;
+    left: 2%;
     font-family: 'Segoe UI', sans-serif;
-    font-size: 10px;
+    font-size: 8px;
     font-weight: normal; 
     text-decoration: none;
     color: #1f2937;
@@ -225,6 +225,42 @@
     width: 99px;      
     height: 99px;
     z-index: 10;      
+  }
+
+  /* =======================================================
+     RESPONSIVIDADE PARA CELULAR (MOBILE DESIGN)
+     ======================================================= */
+  @media screen and (max-width: 768px) {
+    body {
+      padding: 15px 10px;
+    }
+
+    .painel-controle {
+      width: 100% !important;
+      padding: 20px 15px !important;
+      margin-bottom: 20px;
+    }
+
+    .botoes {
+      flex-direction: column; /* Empilha os botões no celular */
+      width: 100%;
+      gap: 10px;
+    }
+
+    .btn-baixar, .btn-linkedin {
+      width: 100%;            /* Botão largo e fácil de tocar */
+      justify-content: center;
+      padding: 14px 16px;
+      font-size: 15px;
+      box-sizing: border-box;
+      white-space: nowrap;    /* Impede que o texto do botão quebre */
+    }
+
+    /* Permite rolagem horizontal suave do certificado no celular */
+    #app-container {
+      width: 100% !important;
+      overflow-x: auto;
+    }
   }
 
   /* =======================================================
@@ -361,7 +397,7 @@ if (!id) {
             <p class="texto-data-conclusao">This award was presented on<br>${dataApresentacaoFormatada} in Florida, USA.</p>
           </div>
           
-          <div class="texto-dinamico id-credencial">Credential ID: ${cert.certificate_id}</div>
+          <div class="texto-dinamico id-credencial">ID: ${cert.certificate_id}</div>
           
           <img class="texto-dinamico imagem-selo" src="selo-${anoCertificado}.png" alt="Selo Oficial">
           
@@ -372,27 +408,50 @@ if (!id) {
         </div>
       `;
 
-      // --- AJUSTE DINÂMICO DE FONTE ULTRA-PRECISO (AUTO-FIT) ---
-      const container = document.querySelector('.nome-aluno-container');
-      const nomeElemento = document.getElementById('dadosNome');
+      // --- AGUARDA O CARREGAMENTO TOTAL DAS FONTES ANTES DE REDIMENSIONAR ---
+      document.fonts.ready.then(() => {
+        
+        // 1. AJUSTE DINÂMICO DO NOME DO ALUNO
+        const container = document.querySelector('.nome-aluno-container');
+        const nomeElemento = document.getElementById('dadosNome');
 
-      // Definimos o tamanho máximo ideal para nomes curtos (como Denise Davidson)
-      let fontSize = 48; 
-      nomeElemento.style.fontSize = fontSize + 'px';
+        if (container && nomeElemento) {
+          let fontSize = 48; 
+          nomeElemento.style.fontSize = fontSize + 'px';
 
-      // O navegador diminui a fonte de 1 em 1 pixel até caber perfeitamente na linha
-      while (nomeElemento.scrollWidth > container.clientWidth && fontSize > 16) {
-        fontSize--;
-        nomeElemento.style.fontSize = fontSize + 'px';
-      }
+          while (nomeElemento.scrollWidth > container.clientWidth && fontSize > 16) {
+            fontSize--;
+            nomeElemento.style.fontSize = fontSize + 'px';
+          }
+        }
+        
+        // 2. AJUSTE DINÂMICO DO CURSO
+        const cursoElemento = document.querySelector('.nome-curso-topo');
+        if (cursoElemento) {
+          cursoElemento.style.width = 'auto';
+          cursoElemento.style.display = 'inline-block';
+          
+          const maxCursoWidth = 842 * 0.60; 
+          let cursoFontSize = 24; 
+          cursoElemento.style.fontSize = cursoFontSize + 'px';
 
-    }) // Fechamento do .then
+          while (cursoElemento.offsetWidth > maxCursoWidth && cursoFontSize > 12) {
+            cursoFontSize--;
+            cursoElemento.style.fontSize = cursoFontSize + 'px';
+          }
+
+          cursoElemento.style.width = '';
+          cursoElemento.style.display = '';
+        }
+
+      });
+
+    })
     .catch(error => {
       document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
       console.error(error);
     });
 }
 </script>
-
 </body>
 </html>
