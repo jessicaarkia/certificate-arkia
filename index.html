@@ -2,13 +2,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Certificate Verification - Arkia</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
-  /* Fonte TAN ANGLETON (Carregada localmente se o arquivo estiver na pasta do GitHub) */
+  /* Fonte TAN ANGLETON (Carregada localmente) */
   @font-face {
     font-family: 'Tan Angleton';
     src: url('tan-angleton.woff2') format('woff2'),
@@ -27,8 +27,9 @@
     justify-content: flex-start;
     align-items: center;
     min-height: 100vh;
-    padding: 30px 20px;
+    padding: 20px 0;
     box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   .card-status {
@@ -47,16 +48,32 @@
   .valid { color: #16a34a; font-weight: normal; font-size: 18px; margin: 10px 0; }
   .invalid { color: #dc2626; font-weight: normal; font-size: 18px; margin: 10px 0; }
 
-  /* Painel de Controle Superior */
+  /* CONTAINER QUE ESCALA TODO O CONJUNTO NO CELULAR */
+  #scale-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+
+  #app-container {
+    width: 842px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: top center;
+  }
+
+  /* Painel de Controle Superior (Mesmo tamanho do certificado: 842px) */
   .painel-controle {
     background: #ffffff;
-    padding: 24px 40px;
+    padding: 20px 30px;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     width: 842px;
-    max-width: 100%;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     box-sizing: border-box;
   }
 
@@ -78,6 +95,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
   }
   .btn-baixar { background-color: #0f172a; color: white; }
   .btn-baixar:hover { background-color: #334155; }
@@ -85,13 +103,13 @@
   .btn-linkedin:hover { background-color: #004182; }
 
   /* =======================================================
-     ÁREA DO CERTIFICADO DINÂMICO
+     ÁREA DO CERTIFICADO DINÂMICO (LARGURA FIXA DE 842PX)
      ======================================================= */
   .certificado-area {
     position: relative;
     width: 842px;  
     height: 595px;
-    margin: 0 auto 40px auto;
+    margin: 0 auto 30px auto;
     box-shadow: 0 15px 35px rgba(0,0,0,0.4);
     background-color: #ffffff;
     overflow: hidden;
@@ -108,12 +126,11 @@
     color: #111111;
   }
 
-  /* 1. Subtítulo Vermelho (OF THE MASTER OF...) */
+  /* 1. Subtítulo Vermelho */
   .nome-curso-topo {
     top: 26%;       
     left: 10.5%;      
     width: 60%;
-
     font-family: 'Baloo 2', sans-serif;
     font-size: 24px;
     font-weight: 350;  
@@ -124,7 +141,7 @@
     white-space: nowrap;
   }
 
-  /* 2. Nome do Aluno (Alinhado perfeitamente pela base na linha física) */
+  /* 2. Nome do Aluno */
   .nome-aluno-container {
     position: absolute;
     top: 46.5%;         
@@ -228,42 +245,6 @@
   }
 
   /* =======================================================
-     RESPONSIVIDADE PARA CELULAR (MOBILE DESIGN)
-     ======================================================= */
-  @media screen and (max-width: 768px) {
-    body {
-      padding: 15px 10px;
-    }
-
-    .painel-controle {
-      width: 100% !important;
-      padding: 20px 15px !important;
-      margin-bottom: 20px;
-    }
-
-    .botoes {
-      flex-direction: column; /* Empilha os botões no celular */
-      width: 100%;
-      gap: 10px;
-    }
-
-    .btn-baixar, .btn-linkedin {
-      width: 100%;            /* Botão largo e fácil de tocar */
-      justify-content: center;
-      padding: 14px 16px;
-      font-size: 15px;
-      box-sizing: border-box;
-      white-space: nowrap;    /* Impede que o texto do botão quebre */
-    }
-
-    /* Permite rolagem horizontal suave do certificado no celular */
-    #app-container {
-      width: 100% !important;
-      overflow-x: auto;
-    }
-  }
-
-  /* =======================================================
      IMPRESSÃO CONFIGURADA PARA CLONE PERFEITO
      ======================================================= */
   @page {
@@ -272,14 +253,15 @@
   }
 
   @media print {
-    html, body, #app-container {
+    html, body, #scale-wrapper, #app-container {
       display: block !important;
       width: 842px !important;
       height: 595px !important;
       margin: 0 !important;
       padding: 0 !important;
       background: none !important;
-      overflow: hidden !important;
+      overflow: visible !important;
+      transform: none !important;
     }
     
     .no-print { display: none !important; }
@@ -302,15 +284,40 @@
 </head>
 <body>
 
-<div id="app-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-  <div class="card-status">
-    <img src="logo-arkia.png" class="logo" alt="Arkia Logo">
-    <h1>Certificate Verification</h1>
-    <div id="status-mensagem">Loading...</div>
+<div id="scale-wrapper">
+  <div id="app-container">
+    <div class="card-status">
+      <img src="logo-arkia.png" class="logo" alt="Arkia Logo">
+      <h1>Certificate Verification</h1>
+      <div id="status-mensagem">Loading...</div>
+    </div>
   </div>
 </div>
 
 <script>
+// --- FUNÇÃO QUE ENCOLHE O CERTIFICADO PROPORCIONALMENTE NO CELULAR ---
+function ajustarEscalaMobile() {
+  const container = document.getElementById('app-container');
+  const wrapper = document.getElementById('scale-wrapper');
+  if (!container || !wrapper) return;
+
+  // Mede a largura real disponível na tela do celular (com 16px de margem)
+  const larguraTela = Math.min(window.innerWidth - 16, 842);
+  const escala = larguraTela / 842;
+
+  if (escala < 1) {
+    container.style.transform = `scale(${escala})`;
+    container.style.transformOrigin = 'top center';
+    wrapper.style.height = (container.offsetHeight * escala) + 'px';
+  } else {
+    container.style.transform = 'none';
+    wrapper.style.height = 'auto';
+  }
+}
+
+window.addEventListener('resize', ajustarEscalaMobile);
+window.addEventListener('orientationchange', () => setTimeout(ajustarEscalaMobile, 150));
+
 function formatarDataExtensoIngles(dataString) {
   if (!dataString) return "";
   const partes = dataString.split('-');
@@ -339,6 +346,7 @@ const sheetURL = "https://opensheet.elk.sh/1BCPN0p7Mx-cAnZsRoZmnYRaFw1sK4Vm6zVxy
 
 if (!id) {
   document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>No Certificate ID provided</p>";
+  ajustarEscalaMobile();
 } else {
   fetch(sheetURL)
     .then(res => {
@@ -352,11 +360,13 @@ if (!id) {
 
       if (!cert) {
         document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Invalid Certificate ID</p>";
+        ajustarEscalaMobile();
         return;
       }
 
       if (cert.status.toLowerCase() !== "valid") {
         document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Certificate Revoked</p>";
+        ajustarEscalaMobile();
         return;
       }
 
@@ -408,7 +418,7 @@ if (!id) {
         </div>
       `;
 
-      // --- AGUARDA O CARREGAMENTO TOTAL DAS FONTES ANTES DE REDIMENSIONAR ---
+      // --- AGUARDA AS FONTES E APLICA O AUTO-FIT + REDIMENSIONAMENTO MOBILE ---
       document.fonts.ready.then(() => {
         
         // 1. AJUSTE DINÂMICO DO NOME DO ALUNO
@@ -444,12 +454,16 @@ if (!id) {
           cursoElemento.style.display = '';
         }
 
+        // 3. ENCOLHE O CERTIFICADO E PAINEL PARA CABER NA TELA DO CELULAR
+        ajustarEscalaMobile();
+
       });
 
     })
     .catch(error => {
       document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
       console.error(error);
+      ajustarEscalaMobile();
     });
 }
 </script>
