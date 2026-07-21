@@ -112,7 +112,7 @@
   .nome-curso-topo {
     top: 26%;       
     left: 10.5%;      
-    width: 60%;
+    width: 70%;
 
     font-family: 'Baloo 2', sans-serif;
     font-size: 24px;
@@ -121,16 +121,17 @@
     text-transform: uppercase;
     letter-spacing: 3px;
     text-align: left;
-    white-space: nowrap;
   }
 
-  /* 2. Nome do Aluno (Alinhado perfeitamente pela base na linha física) */
+  /* 2. Nome do Aluno (Alinhado pela base com segurança extra) */
   .nome-aluno-container {
     position: absolute;
-    top: 46.5%;         
+    top: 46.5%;         /* Ajuste esta porcentagem se o nome precisar subir ou descer um pouquinho na linha */
     left: 10.5%;      
-    width: 58%;         
+    width: 55%;         
     text-align: left;
+    
+    /* Puxa o texto para cima a partir da sua linha de base inferior */
     transform: translateY(-100%); 
   }
 
@@ -138,7 +139,7 @@
     font-family: 'Tan Angleton', 'Playfair Display', 'Times New Roman', serif;
     font-weight: normal; 
     margin: 0;
-    line-height: 1.0;  
+    line-height: 1.0;  /* Mantido em 1.0 para precisão milimétrica */
     color: #111827;
     white-space: nowrap; 
   }
@@ -148,8 +149,8 @@
     position: absolute;
     top: 51%;       
     left: 10.5%;      
-    width: 57%;        
-    height: 135px;    
+    width: 50%;        
+    height: 115px;    
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
@@ -179,16 +180,15 @@
     font-weight: 400;  
     color: #4b5563;    
     margin: 0;
-    margin-top: 10px;  
     line-height: 1.35;  
   }
 
-  /* 4. Rodapé do Certificado */
+  /* 4. Rodapé do Certificado (ID de Credencial) */
   .id-credencial {
-    bottom: 4.5%;
-    left: 2%;
+    bottom: 3%;
+    left: 80%;
     font-family: 'Segoe UI', sans-serif;
-    font-size: 8px;
+    font-size: 10px;
     font-weight: normal; 
     text-decoration: none;
     color: #1f2937;
@@ -361,7 +361,7 @@ if (!id) {
             <p class="texto-data-conclusao">This award was presented on<br>${dataApresentacaoFormatada} in Florida, USA.</p>
           </div>
           
-          <div class="texto-dinamico id-credencial">ID: ${cert.certificate_id}</div>
+          <div class="texto-dinamico id-credencial">Credential ID: ${cert.certificate_id}</div>
           
           <img class="texto-dinamico imagem-selo" src="selo-${anoCertificado}.png" alt="Selo Oficial">
           
@@ -372,51 +372,27 @@ if (!id) {
         </div>
       `;
 
-      // --- AGUARDA O CARREGAMENTO TOTAL DAS FONTES ANTES DE REDIMENSIONAR ---
-      document.fonts.ready.then(() => {
-        
-        // 1. AJUSTE DINÂMICO DO NOME DO ALUNO
-        const container = document.querySelector('.nome-aluno-container');
-        const nomeElemento = document.getElementById('dadosNome');
+      // --- AJUSTE DINÂMICO DE FONTE ULTRA-PRECISO (AUTO-FIT) ---
+      const container = document.querySelector('.nome-aluno-container');
+      const nomeElemento = document.getElementById('dadosNome');
 
-        if (container && nomeElemento) {
-          let fontSize = 48; 
-          nomeElemento.style.fontSize = fontSize + 'px';
+      // Definimos o tamanho máximo ideal para nomes curtos (como Denise Davidson)
+      let fontSize = 48; 
+      nomeElemento.style.fontSize = fontSize + 'px';
 
-          while (nomeElemento.scrollWidth > container.clientWidth && fontSize > 16) {
-            fontSize--;
-            nomeElemento.style.fontSize = fontSize + 'px';
-          }
-        }
-        
-        // 2. AJUSTE DINÂMICO DO CURSO
-        const cursoElemento = document.querySelector('.nome-curso-topo');
-        if (cursoElemento) {
-          cursoElemento.style.width = 'auto';
-          cursoElemento.style.display = 'inline-block';
-          
-          const maxCursoWidth = 842 * 0.60; 
-          let cursoFontSize = 24; 
-          cursoElemento.style.fontSize = cursoFontSize + 'px';
+      // O navegador diminui a fonte de 1 em 1 pixel até caber perfeitamente na linha
+      while (nomeElemento.scrollWidth > container.clientWidth && fontSize > 16) {
+        fontSize--;
+        nomeElemento.style.fontSize = fontSize + 'px';
+      }
 
-          while (cursoElemento.offsetWidth > maxCursoWidth && cursoFontSize > 12) {
-            cursoFontSize--;
-            cursoElemento.style.fontSize = cursoFontSize + 'px';
-          }
-
-          // Restaura os valores padrão do CSS
-          cursoElemento.style.width = '';
-          cursoElemento.style.display = '';
-        }
-
-      });
-
-    })
+    }) // Fechamento do .then
     .catch(error => {
       document.getElementById("status-mensagem").innerHTML = "<p class='invalid'>Error loading certificate data</p>";
       console.error(error);
     });
 }
 </script>
+
 </body>
 </html>
